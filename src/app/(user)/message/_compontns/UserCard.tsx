@@ -1,0 +1,67 @@
+import CustomAvatar from "@/components/shared/CustomAvatar";
+import { cn } from "@/lib/utils";
+import { calculateTime } from "@/utils/calculateTime";
+
+const UserCard = ({
+  user,
+  setSelectedUser,
+}: {
+  user: any;
+  setSelectedUser: any;
+}) => {
+  return (
+    <div
+      className={`flex items-center xl:gap-x-2 lg:gap-x-1 gap-x-2 cursor-pointer`}
+      onClick={() => setSelectedUser(user)}
+    >
+      <div>
+        <CustomAvatar
+          img={user?.userData?.profilePicture}
+          name={
+            user?.userData?.familyUser?.personName ||
+            user?.userData?.babysitter?.firstName
+          }
+          className="lg:size-8 size-10 xl:size-10   rounded-full "
+        ></CustomAvatar>
+        {/* <Image
+          src={user?.userData?.profilePicture}
+          alt={"profile_picture"}
+          width={1200}
+          height={1200}
+          quality={100}
+          className="size-10 rounded-full "
+        /> */}
+      </div>
+
+      <div className="flex-grow ">
+        <div className="flex items-center justify-between gap-x-2">
+          <h4
+            className={cn(
+              "lg:text-[14px] text-base xl:text-base  font-medium text-primary-black truncate lg:max-w-[150px] xl:max-w-[120px] 2xl:max-w-[180px]"
+            )}
+          >
+            {user?.userData?.familyUser?.personName ||
+              user?.userData?.babysitter?.firstName +
+                " " +
+                user?.userData?.babysitter?.lastName}{" "}
+          </h4>
+          <p className="font-semibold text-secondary-2 text-primary-gray truncate text-[12px] lg:text-[10px] xl:text-[12px]">
+            {calculateTime(user?.message?.createdAt)}
+          </p>
+        </div>
+        <p
+          className={cn(
+            "text-ellipsis text-[12px]  xl:text-[12px] lg:text-[10px]",
+            user?.unseen && "font-semibold"
+          )}
+        >
+          {user?.message?.content && user?.message?.content?.length > 34
+            ? user?.message?.content?.slice(0, 34) + "..."
+            : user?.message?.content || ""}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default UserCard;
