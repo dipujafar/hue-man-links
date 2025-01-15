@@ -49,16 +49,22 @@ const UserCard = ({
             {calculateTime(user?.message?.createdAt)}
           </p>
         </div>
-        <p
-          className={cn(
-            "text-ellipsis text-[12px]  xl:text-[12px] lg:text-[10px]",
-            user?.unseen && "font-semibold"
-          )}
-        >
-          {user?.message?.content && user?.message?.content?.length > 34
-            ? user?.message?.content?.slice(0, 34) + "..."
-            : user?.message?.content || ""}
-        </p>
+        <div className="flex justify-between items-center">
+          <p
+            className={cn(
+              "text-ellipsis text-[12px]  xl:text-[12px] lg:text-[10px]",
+              user?.unseen && "font-semibold"
+            )}
+          >
+            {user?.message?.content && user?.message?.content?.length > 34
+              ? user?.message?.content?.slice(0, 34) + "..."
+              : user?.message?.content || ""}
+          </p>
+          {/* unseen message */}
+          <p className="text-[10px] px-1 bg-primary-orange rounded-full text-white">
+            {user?.unseenMessage ? user?.unseenMessage : ""}
+          </p>
+        </div>
       </div>
     </div>
   );
