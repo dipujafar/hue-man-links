@@ -252,9 +252,9 @@ const UserDashboardSidebar = () => {
                 key={link.key}
                 className={cn(
                   "flex flex-col items-center gap-x-3 px-5 py-2 text-lg rounded text-primary-gray    transition-all duration-300 ease-in-out ",
-                  pathname === link.href && "  text-primary-orange",
-                  link.href.includes(path) && "   text-primary-orange",
-                  link.href.includes(subpath) && "   text-primary-orange"
+                  pathname === link.href && " text-primary-orange",
+                  link.href.includes(path) && "text-primary-orange",
+                  link.href.includes(subpath) && "text-primary-orange"
                 )}
               >
                 {link.icon}

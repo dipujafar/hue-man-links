@@ -1,4 +1,10 @@
-const OwnerMsgCard = ({ message }: { message: string }) => {
+const OwnerMsgCard = ({
+  message,
+  files,
+}: {
+  message: string;
+  files: string[] | null;
+}) => {
   return (
     <div className="max-w-max rounded-xl border bg-primary-orange text-primary-white px-3 py-1">
       <p className="text-primaryWhite">{message}</p>

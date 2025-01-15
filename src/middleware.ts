@@ -12,7 +12,7 @@ export default function middleware(req: any) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // // If user not found, redirect to `/login`
+  // If user not found, redirect to `/login`
   if (!isLoggedIn && !isAuthRoute) {
     return NextResponse.redirect(new URL("/", req.url));
   }

@@ -28,6 +28,7 @@ import logo from "@/assets/Images/logo.png";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetUserProfileQuery } from "@/redux/api/userProfileApi";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Cookies from "js-cookie";
 const about = [
   {
     label: "About Us",
@@ -66,6 +67,7 @@ const Navbar = ({ className }: { className?: string }) => {
   const { data: userProfile } = useGetUserProfileQuery(undefined, {
     skip: !user?.id,
   });
+  const isLoggedIn = Cookies.get("hue-man-access-token");
 
   return (
     <div className={cn(className)}>
@@ -136,7 +138,7 @@ const Navbar = ({ className }: { className?: string }) => {
                   onClick={() => setOpenLogin(true)}
                   className={cn(
                     "text-primary-white font-medium text-lg cursor-pointer",
-                    user?.id ? "hidden" : ""
+                    user?.id && isLoggedIn ? "hidden" : ""
                   )}
                 >
                   Login
@@ -154,7 +156,7 @@ const Navbar = ({ className }: { className?: string }) => {
               user?.id ? "lg:flex" : "xl:flex"
             )}
           >
-            {user?.id ? (
+            {user?.id && isLoggedIn ? (
               <div>
                 <Link
                   href={`/${
@@ -280,7 +282,7 @@ const Navbar = ({ className }: { className?: string }) => {
                           onClick={() => setOpenLogin(true)}
                           className={cn(
                             "text-primary-black font-medium text-lg cursor-pointer pl-4",
-                            user?.id ? "hidden" : ""
+                            user?.id && isLoggedIn ? "hidden" : ""
                           )}
                         >
                           Login
@@ -290,7 +292,7 @@ const Navbar = ({ className }: { className?: string }) => {
                   </div>
 
                   {/* nav button */}
-                  {user?.id ? (
+                  {user?.id && isLoggedIn ? (
                     <div className="flex justify-center">
                       <Link
                         href={`/${

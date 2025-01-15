@@ -3,7 +3,14 @@ import { Input } from "@/components/ui/input";
 import ReceiverMsgCard from "./ReceiverMsgCard";
 import UserCard from "./UserCard";
 import Image from "next/image";
-import { ArrowLeft, CircleOff, MoveLeft, PlusCircleIcon, SendHorizontal, X } from "lucide-react";
+import {
+  ArrowLeft,
+  CircleOff,
+  MoveLeft,
+  PlusCircleIcon,
+  SendHorizontal,
+  X,
+} from "lucide-react";
 import OwnerMsgCard from "./OwnerMsgCard";
 import { Button } from "@/components/ui/button";
 import userImg from "@/assets/Images/message/user1.png";
@@ -16,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { TMessage } from "@/types";
 import CustomAvatar from "@/components/shared/CustomAvatar";
 import useMultipleFileUpload from "@/hooks/useMultipleFileUpload";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface UploadedImage {
   id: string;
@@ -44,8 +52,6 @@ const MessageContainer = () => {
   const [upload] = useMultipleFileUpload();
 
   const { register, handleSubmit, reset } = useForm();
-
-  console.log(chatList);
 
   // ==================================== on my chart list ==============================================
   useEffect(() => {
@@ -103,7 +109,7 @@ const MessageContainer = () => {
     setMessageLoading(true);
     if (socket && user?.id) {
       socket.on(`messages::${user?.id}`, (res) => {
-        setMessage(res);
+        setMessage(res?.data);
         setMessageLoading(false);
       });
     }
@@ -111,8 +117,7 @@ const MessageContainer = () => {
     return () => {
       if (socket && user?.id && chatId) {
         socket.off(`messages::${user?.id}`, (res) => {
-          setMessage(res);
-          console.log(chatId);
+          setMessage(res?.data);
           setMessageLoading(false);
         });
       }
@@ -163,7 +168,7 @@ const MessageContainer = () => {
       console.log(payload);
 
       if (socket && user?.id && selectedUserId) {
-        socket.emit("send-message", payload, async () => {
+        socket.emit("send-message", payload, () => {
           // nothing do
         });
         reset();
@@ -183,23 +188,30 @@ const MessageContainer = () => {
     }
   };
 
-  // ===================================== listen for new message ==============================================
-  // useEffect(() => {
-  //   if (socket && user?.id && chatId) {
-  //     socket.on(`new-message::${user?.id}`, (res) => {
-  //       console.log(res?.data);
-  //       setMessage((prev: TMessage[]) => [...prev, res?.data]);
-  //     });
-  //   }
+  // ===================================== listen for new message ===============================================
+  useEffect(() => {
+    if (socket && user?.id && chatId) {
+      socket.on(`new-message::${user?.id}`, (res) => {
+        if (!res?.data) return null;
+        if (messages?.data?.length > 0) {
+          return setMessage([...messages, res?.data]);
+        }
+        setMessage([...messages, res?.data]);
+      });
+    }
 
-  //   return () => {
-  //     if (socket && user?.id && chatId) {
-  //       socket.off(`new-message::${user?.id}`, (res) => {
-  //         setMessage((prev: TMessage[]) => [...prev, res?.data]);
-  //       });
-  //     }
-  //   };
-  // }, [socket, user?.id, chatId]);
+    return () => {
+      if (socket && user?.id && chatId) {
+        socket.off(`new-message::${user?.id}`, (res) => {
+          if (!res?.data) return null;
+          if (messages?.data?.length > 0) {
+            return setMessage([...messages, res?.data]);
+          }
+          setMessage([...messages, res?.data]);
+        });
+      }
+    };
+  });
 
   // // ===================================== scroll to bottom of chat box ==============================================
   useEffect(() => {
@@ -214,7 +226,9 @@ const MessageContainer = () => {
   // ================================== isActive user ==============================================
   useEffect(() => {
     if (activeUser) {
-      const isActiveUser = activeUser?.find((item: any) => item?.id === selectedUserId);
+      const isActiveUser = activeUser?.find(
+        (item: any) => item?.id === selectedUserId
+      );
 
       setIsActive(isActiveUser ? true : false);
     }
@@ -274,23 +288,22 @@ const MessageContainer = () => {
     }
   };
 
-  console.log(typing);
-
+  // console.log(chatList);
   return (
-    <div className='lg:mx-auto'>
-      <div className='relative z-10 flex flex-col rounded-xl rounded-t-xl lg:border-t-8 lg:border-t-primary-orange  md:px-10 lg:py-8 lg:flex-row'>
+    <div className="lg:mx-auto">
+      <div className="relative z-10 flex flex-col rounded-xl rounded-t-xl lg:border-t-8 lg:border-t-primary-orange  md:px-10 lg:py-8 lg:flex-row">
         {/* left */}
         <div
           className={cn(
             "border-opacity-[40%] pr-2 xl:w-[25%] lg:w-[35%] lg:border-r-2 lg:border-gray-300 lg:block",
-            selectedUserId || chatId ? "hidden" : "block",
+            selectedUserId || chatId ? "hidden" : "block"
           )}
         >
-          <div className='border-t-black flex items-end gap-x-5 border-b border-opacity-[40%] py-4 text-black'>
-            <h4 className='md:text-2xl text-xl font-bold'>Messages</h4>
+          <div className="border-t-black flex items-end gap-x-5 border-b border-opacity-[40%] py-4 text-black">
+            <h4 className="md:text-2xl text-xl font-bold">Messages</h4>
           </div>
 
-          <div className='mx-auto mb-10 mt-4 w-[95%]'>
+          <div className="mx-auto mb-10 mt-4 w-[95%]">
             {/* <Input
               placeholder="Search messages"
               className="w-full rounded-xl border  bg-transparent px-2 py-6 "
@@ -298,8 +311,18 @@ const MessageContainer = () => {
               onChange={(e) => setSearch(e.target.value)}
             /> */}
             {/* =============================== display charlist =============================== */}
-            <div className='scroll-hide mt-8  lg:max-h-[80vh] space-y-5 overflow-auto'>
-              {chatList &&
+            <div className="scroll-hide mt-8  lg:max-h-[80vh] space-y-5 overflow-auto">
+              {chatListLoading ? (
+                <>
+                  {Array.from({ length: 10 }, (_, i) => (
+                    <div className="flex gap-x-2">
+                      <Skeleton className="h-[40px] bg-gray-300/60 rounded-full w-[15%]"></Skeleton>
+                      <Skeleton className="h-[40px] bg-gray-300/60 flex-1"></Skeleton>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                chatList &&
                 chatList?.map((chatData: any) => (
                   <UserCard
                     setSelectedUser={setSelectedUser}
@@ -308,9 +331,11 @@ const MessageContainer = () => {
                       userData: chatData?.participants?.[0],
                       message: chatData?.lastMessage,
                       unseen: chatData?.unseenMessageCount ? true : false,
+                      unseenMessage: chatData?.unseenMessageCount,
                     }}
                   ></UserCard>
-                ))}
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -319,19 +344,23 @@ const MessageContainer = () => {
         <div
           className={cn(
             "scroll-hide flex h-full flex-col justify-between rounded-tl-lg lg:block  lg:flex-grow",
-            selectedUserId || chatId ? "block" : "hidden",
+            selectedUserId || chatId ? "block" : "hidden"
           )}
         >
           {!selectedUser ? (
-            <div className='flex h-[80vh] items-center justify-center'>
-              <div className='flex items-center gap-x-3 font-dm-sans text-2xl'>
+            <div className="flex h-[80vh] items-center justify-center">
+              <div className="flex items-center gap-x-3 font-dm-sans text-2xl">
                 <PlusCircleIcon size={28} /> Start a conversation
               </div>
             </div>
           ) : (
-            <div className={cn("scroll-h flex flex-col justify-between lg:flex-grow lg:px-8")}>
+            <div
+              className={cn(
+                "scroll-h flex flex-col justify-between lg:flex-grow lg:px-8"
+              )}
+            >
               <p
-                className='lg:hidden cursor-pointer'
+                className="lg:hidden cursor-pointer"
                 onClick={() => {
                   setSelectedUserId(null);
                   setChartId(null);
@@ -339,8 +368,8 @@ const MessageContainer = () => {
               >
                 <MoveLeft size={28} />
               </p>
-              <div className='border-t-black flex items-center justify-between border-b border-opacity-[40%] pb-2'>
-                <div className='flex items-center gap-x-2'>
+              <div className="border-t-black flex items-center justify-between border-b border-opacity-[40%] pb-2">
+                <div className="flex items-center gap-x-2">
                   <div>
                     <CustomAvatar
                       img={selectedUser?.userData?.profilePicture}
@@ -348,12 +377,12 @@ const MessageContainer = () => {
                         selectedUser?.userData?.familyUser?.personName ||
                         selectedUser?.userData?.babysitter?.firstName
                       }
-                      className=' size-14  rounded-full '
+                      className=" size-14  rounded-full "
                     ></CustomAvatar>
                   </div>
 
-                  <div className='lg:flex-grow'>
-                    <h3 className='text-lg md:text-xl font-semibold text-black truncate'>
+                  <div className="lg:flex-grow">
+                    <h3 className="text-lg md:text-xl font-semibold text-black truncate">
                       {selectedUser?.userData?.familyUser?.personName ||
                         selectedUser?.userData?.babysitter?.firstName +
                           " " +
@@ -361,38 +390,40 @@ const MessageContainer = () => {
                     </h3>
 
                     {isActive ? (
-                      <div className=' flex items-center gap-x-1'>
-                        <div className='size-3 rounded-full bg-green-500' />
-                        <p className='text-black border-t-black'>Online</p>
+                      <div className=" flex items-center gap-x-1">
+                        <div className="size-3 rounded-full bg-green-500" />
+                        <p className="text-black border-t-black">Online</p>
                       </div>
                     ) : (
-                      <div className=' flex items-center gap-x-1'>
-                        <div className='size-3 rounded-full bg-yellow-500' />
-                        <p className='text-black border-t-black'>Offline</p>
+                      <div className=" flex items-center gap-x-1">
+                        <div className="size-3 rounded-full bg-yellow-500" />
+                        <p className="text-black border-t-black">Offline</p>
                       </div>
                     )}
                   </div>
                 </div>
 
-                <button className='flex items-center gap-x-1'>
-                  <CircleOff size={20} color='#d55758' />
+                <button className="flex items-center gap-x-1">
+                  <CircleOff size={20} color="#d55758" />
                 </button>
               </div>
 
               <div
                 className={cn(
-                  "scroll-hide space-y-1 pt-8  max-h-[65vh] min-h-[65vh]  overflow-auto",
+                  "scroll-hide space-y-1 pt-8  max-h-[65vh] min-h-[65vh]  overflow-auto"
                 )}
                 ref={chatBoxRef}
               >
-                {messages?.data?.map((message: TMessage, index: number) => {
+                {messages?.map((message: TMessage, index: number) => {
                   const isPreviousMessageFromSameSender =
-                    index > 0 && messages.data[index - 1]?.senderId === message.senderId;
+                    index > 0 &&
+                    messages[index - 1]?.senderId === message.senderId;
 
-                  const showAvatar = !isPreviousMessageFromSameSender || index === 0; // Show avatar only if it's the first in a series or the first message overall.
+                  const showAvatar =
+                    !isPreviousMessageFromSameSender || index === 0; // Show avatar only if it's the first in a series or the first message overall.
 
                   return message?.senderId !== user?.id ? (
-                    <div className='flex items-start gap-x-2' key={message.id}>
+                    <div className="flex items-start gap-x-2" key={message.id}>
                       {showAvatar && (
                         <CustomAvatar
                           img={selectedUser?.userData?.profilePicture}
@@ -400,63 +431,74 @@ const MessageContainer = () => {
                             selectedUser?.userData?.familyUser?.personName ||
                             selectedUser?.userData?.babysitter?.firstName
                           }
-                          className='size-8 rounded-full'
+                          className="size-8 rounded-full"
                         />
                       )}
                       <div
                         className={cn(
                           "md:max-w-[50%] max-w-[75%] space-y-3 overflow-hidden",
-                          !showAvatar && "pl-10",
+                          !showAvatar && "pl-10"
                         )}
                       >
-                        <ReceiverMsgCard message={message?.content} />
+                        <ReceiverMsgCard
+                          message={message?.content}
+                          files={message?.files?.length ? message?.files : null}
+                        />
                       </div>
                     </div>
                   ) : (
-                    <div className='flex flex-row-reverse items-start gap-x-4' key={message.id}>
-                      <div className='flex md:max-w-[50%] max-w-[75%] flex-col items-end space-y-1'>
-                        <OwnerMsgCard message={message?.content} />
+                    <div
+                      className="flex flex-row-reverse items-start gap-x-4"
+                      key={message.id}
+                    >
+                      <div className="flex md:max-w-[50%] max-w-[75%] flex-col items-end space-y-1">
+                        <OwnerMsgCard
+                          message={message?.content}
+                          files={message?.files?.length ? message?.files : null}
+                        />
                       </div>
                     </div>
                   );
                 })}
               </div>
 
-              <div className='mt-5 relative'>
+              <div className="mt-5 relative">
                 {uploadedImages.length > 0 && (
-                  <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4   bg-gray-200 w-full px-10'>
+                  <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4   bg-gray-200 w-full px-10">
                     {uploadedImages.map((image) => (
                       <div
                         key={image.id}
-                        className='relative group flex flex-col justify-center items-center gap-x-2 py-2'
+                        className="relative group flex flex-col justify-center items-center gap-x-2 py-2"
                       >
                         {image?.isImage && (
                           <Image
                             src={image?.previewUrl}
-                            alt='Uploaded preview'
+                            alt="Uploaded preview"
                             width={1200}
                             height={1200}
-                            className=' rounded-lg max-w-44 w-auto mx-auto h-20'
+                            className=" rounded-lg max-w-44 w-auto mx-auto h-20"
                           />
                         )}
 
                         {!image?.isImage && (
-                          <p className=' max-w-[200px] truncate text-[14px]'>{image?.file?.name}</p>
+                          <p className=" max-w-[200px] truncate text-[14px]">
+                            {image?.file?.name}
+                          </p>
                         )}
 
                         <button
                           onClick={() => removeImage(image.id)}
-                          className='absolute top-2 right-2 p-1 bg-red-500 rounded-full opacity-100 transition-opacity z-30'
+                          className="absolute top-2 right-2 p-1 bg-red-500 rounded-full opacity-100 transition-opacity z-30"
                         >
-                          <X className='w-4 h-4 text-white' />
+                          <X className="w-4 h-4 text-white" />
                         </button>
-                        <div className='absolute inset-0 bg-black/5 opacity-100 transition-opacity rounded-lg' />
+                        <div className="absolute inset-0 bg-black/5 opacity-100 transition-opacity rounded-lg" />
                       </div>
                     ))}
                   </div>
                 )}
 
-                <div className='flex w-full items-center gap-x-3'>
+                <div className="flex w-full items-center gap-x-3">
                   <div>
                     <PhotoUpload
                       onImagesChange={handleImagesChange}
@@ -467,13 +509,13 @@ const MessageContainer = () => {
 
                   <form
                     onSubmit={handleSubmit(handleSendMessage)}
-                    className='flex flex-col w-full items-stretch gap-x-4 relative'
+                    className="flex flex-col w-full items-stretch gap-x-4 relative"
                   >
                     <div>
                       <Input
-                        placeholder='Type a message'
-                        type='text'
-                        className='w-full border-2 border-black/50 bg-transparent px-4 py-6 rounded-3xl'
+                        placeholder="Type a message"
+                        type="text"
+                        className="w-full border-2 border-black/50 bg-transparent px-4 py-6 rounded-3xl"
                         {...register("message", {
                           required: images.length > 0 ? false : true,
                         })}
@@ -490,8 +532,8 @@ const MessageContainer = () => {
                         maxHeight={150}
                       ></AutosizeTextarea> */}
 
-                      <Button className='cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 bg-primary-orange px-3'>
-                        <SendHorizontal size={20} color='#fff' />
+                      <Button className="cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 bg-primary-orange px-3">
+                        <SendHorizontal size={20} color="#fff" />
                       </Button>
                     </div>
                   </form>
