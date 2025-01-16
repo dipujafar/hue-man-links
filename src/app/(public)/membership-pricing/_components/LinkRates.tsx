@@ -46,7 +46,7 @@ const LinkRates = () => {
             key={idx}
             className={`px-6 py-5 rounded-xl bg-[${data?.color}] text-primary-white space-y-2 flex flex-col justify-center items-center`}
           >
-            <h6 className="text-3xl font-medium">1 {data?.child} Child</h6>
+            <h6 className="text-3xl font-medium"> {data?.child} Child</h6>
             <h3 className="text-5xl font-bold">$ {data?.price}</h3>
           </div>
         ))}
