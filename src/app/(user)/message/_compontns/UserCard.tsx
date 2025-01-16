@@ -80,14 +80,14 @@ const UserCard = ({
                 (user?.message?.files?.length > 1 ? "Images" : "Image")}
           </p>
           {/* unseen message */}
-          <p
+          {/* <p
             className={cn(
               "text-[10px] px-1 bg-primary-orange rounded-full text-white",
               selectedUserId == user?.userData?.userId && "hidden"
             )}
           >
             {user?.unseenMessage ? user?.unseenMessage : ""}
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

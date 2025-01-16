@@ -48,6 +48,9 @@ const MessageContainer = () => {
   const userFrom = useSearchParams().get("userFrom");
   const fromUserProfile = useGetSingleUserProfileQuery(userFrom || undefined);
   const formUserProfileData = fromUserProfile?.data?.data || null;
+  const [reEmit, setReEmit] = useState(false);
+
+  // console.log(reEmit);
 
   // ==================================== on my chart list ==============================================
   useEffect(() => {
@@ -65,7 +68,7 @@ const MessageContainer = () => {
         setChatListLoading(false);
       });
     };
-  }, [socket, user?.id]);
+  }, [socket, user?.id, reEmit]);
 
   // ================================== Listen for active user =============================================
   useEffect(() => {
@@ -82,14 +85,14 @@ const MessageContainer = () => {
         });
       }
     };
-  }, [socket, user?.id]);
+  }, [socket, user?.id, reEmit]);
 
   // ==================================== Get chart list ==============================================
   useEffect(() => {
     if (socket && user?.id) {
       socket.emit("my-chat-list");
     }
-  }, [socket, user?.id]);
+  }, [socket, user?.id, reEmit]);
 
   // ==================================== emit active list ==============================================
   useEffect(() => {
@@ -98,7 +101,7 @@ const MessageContainer = () => {
         // nothing do
       });
     }
-  }, [socket, user?.id]);
+  }, [socket, user?.id, reEmit]);
 
   // ================================== Listen for message ==============================================
   useEffect(() => {
@@ -119,7 +122,7 @@ const MessageContainer = () => {
         });
       }
     };
-  }, [socket, user?.id, chatId]);
+  }, [socket, user?.id, chatId, selectedUserId, reEmit]);
 
   // ================================== emit message ==============================================
   useEffect(() => {
@@ -128,7 +131,7 @@ const MessageContainer = () => {
         // nothing do
       });
     }
-  }, [socket, user?.id, chatId]);
+  }, [socket, user?.id, chatId, selectedUserId, reEmit]);
 
   // ==================================== set file upload file ==============================================
   const handleImagesChange = (newImages: UploadedImage[]) => {
@@ -169,6 +172,7 @@ const MessageContainer = () => {
         reset();
         setImages([]);
         setUploadedImages([]);
+        setReEmit(!reEmit);
         return;
       }
     }
@@ -182,10 +186,11 @@ const MessageContainer = () => {
         // nothing do
       });
       reset();
+      setReEmit(!reEmit);
     }
   };
 
-  // // ===================================== listen for new message ===============================================
+  // ===================================== listen for new message ===============================================
   // useEffect(() => {
   //   if (socket && user?.id && chatId) {
   //     socket.on(`new-message::${user?.id}`, (res) => {
@@ -210,7 +215,7 @@ const MessageContainer = () => {
   //   };
   // });
 
-  // // ===================================== scroll to bottom of chat box ==============================================
+  // ===================================== scroll to bottom of chat box ==============================================
   useEffect(() => {
     if (messages) {
       if (chatBoxRef.current) {
@@ -306,7 +311,7 @@ const MessageContainer = () => {
         },
       };
 
-      if (!selectedUser) {
+      if (!selectedUser && !messageLoading) {
         setSelectedUser(fromUserProfile);
       }
     }

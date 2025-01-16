@@ -33,7 +33,7 @@ const OwnerMsgCard = ({
                   setImageUrl(file);
                 }}
                 key={index}
-                className="h-24 xl:h-28 rounded-none max-w-[250px]"
+                className="h-24 xl:h-28 rounded-none max-w-[250px] cursor-pointer"
               >
                 <AvatarImage src={file} />
                 <AvatarFallback className=" rounded-none">

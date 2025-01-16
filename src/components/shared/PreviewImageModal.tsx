@@ -5,7 +5,11 @@ import { Skeleton } from "../ui/skeleton";
 const PreviewImageModal = ({ open, setOpen, url }: any) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="bg-transparent border-none">
+      <DialogContent
+        className="bg-transparent border-none outline-none"
+        // @ts-ignore
+        showDialogClose={false}
+      >
         <div>
           <Avatar className="w-full h-full rounded-none">
             <AvatarImage src={url} />

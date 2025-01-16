@@ -21,8 +21,9 @@ const ReceiverMsgCard = ({
         {files && files?.length > 0 && (
           <div
             className={cn(
-              "grid grid-cols-2  gap-2",
-              files?.length > 2 && "xl:grid-cols-3"
+              "grid grid-cols-1  gap-2",
+              files?.length > 2 && "xl:grid-cols-3",
+              files?.length > 1 && "grid-cols-2"
             )}
           >
             {files?.map((file, index) => (
@@ -32,7 +33,7 @@ const ReceiverMsgCard = ({
                   setImageUrl(file);
                 }}
                 key={index}
-                className="h-24 xl:h-28 rounded-none"
+                className="h-24 xl:h-28 rounded-none max-w-[250px] cursor-pointer"
               >
                 <AvatarImage src={file} />
                 <AvatarFallback className=" rounded-none">
