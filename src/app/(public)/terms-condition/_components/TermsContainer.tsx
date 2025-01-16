@@ -6,7 +6,7 @@ const TermsContainer = () => {
   const { data: terms } = useGetTermsQuery(undefined);
 
   return (
-    <div className="md:my-10 my-5">
+    <div className="md:my-10 my-5 min-h-[50vh]">
       <h1 className="xl:text-5xl md:text-3xl text-xl font-bold md:mb-10 mb-5 ">
         Terms of use →
       </h1>

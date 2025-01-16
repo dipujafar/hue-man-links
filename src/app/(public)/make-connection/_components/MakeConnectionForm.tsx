@@ -568,34 +568,6 @@ const MakeConnectionForm = () => {
               />
             </div>
           </div>
-          <div>
-            <p className="text-primary-black/80">
-              By signing up for our auto-renewing monthly membership, which will
-              be charged to the card on file every 30 days. Your membership will
-              continue until you choose to cancel. You can cancel at any time by
-              contacting us. Please confirm by answering "yes" below if you
-              agree to the terms of our auto-renewing monthly membership.
-            </p>
-            <Controller
-              name="renew"
-              control={control}
-              render={({ field }) => (
-                <RadioGroup
-                  {...field}
-                  onValueChange={field.onChange} // Ensures RHF tracks changes
-                >
-                  {["Yes", "No"].map((plan, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <RadioGroupItem value={plan} id={`${index + 1}`} />
-                      <Label className="text-xl font-medium text-primary-black/85">
-                        {plan}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              )}
-            />
-          </div>
 
           <div className="grid w-full  items-center gap-1.5">
             <Label className="font-semibold text-lg text-primary-black/80">
@@ -781,45 +753,75 @@ const MakeConnectionForm = () => {
           </div>
         </div>
 
-        {/* Which membership plan do you want? */}
-        <div className="space-y-5">
-          <h1 className="text-2xl font-semibold text-primary-blue">
-            Which membership plan do you want?
-          </h1>
+        <div>
+          {/* Which membership plan do you want? */}
+          <div className="space-y-5">
+            <h1 className="text-2xl font-semibold text-primary-blue">
+              Which membership plan do you want?
+            </h1>
 
-          <Controller
-            name="membershipPlan"
-            control={control}
-            rules={{ required: "Please select a membership plan." }}
-            render={({ field }) => (
-              <RadioGroup
-                {...field}
-                className="space-y-2"
-                onValueChange={field.onChange} // Ensures RHF tracks changes
-              >
-                {memberShipPlans.map((plan, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <RadioGroupItem value={plan.value} id={`${index + 1}`} />
-                    <Label className="text-xl font-medium text-primary-black/85">
-                      {plan.label} $({plan.price})
-                      <Link href={`/membership-pricing/#${plan.value}`}>
-                        <Info
-                          size={20}
-                          className="inline ml-4"
-                          color="#f26d6d"
-                        />
-                      </Link>
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
+            <Controller
+              name="membershipPlan"
+              control={control}
+              rules={{ required: "Please select a membership plan." }}
+              render={({ field }) => (
+                <RadioGroup
+                  {...field}
+                  className="space-y-2"
+                  onValueChange={field.onChange} // Ensures RHF tracks changes
+                >
+                  {memberShipPlans.map((plan, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <RadioGroupItem value={plan.value} id={`${index + 1}`} />
+                      <Label className="text-xl font-medium text-primary-black/85">
+                        {plan.label} $({plan.price})
+                        <Link href={`/membership-pricing/#${plan.value}`}>
+                          <Info
+                            size={20}
+                            className="inline ml-4"
+                            color="#f26d6d"
+                          />
+                        </Link>
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              )}
+            />
+            {errors.membershipPlan && (
+              <p className="text-red-500 text-sm">
+                Please select a membership plan.
+              </p>
             )}
-          />
-          {errors.membershipPlan && (
-            <p className="text-red-500 text-sm">
-              Please select a membership plan.
+          </div>
+          <div className="mt-2">
+            <p className="text-primary-black/80">
+              By signing up for our auto-renewing monthly membership, which will
+              be charged to the card on file every 30 days. Your membership will
+              continue until you choose to cancel. You can cancel at any time by
+              contacting us. Please confirm by answering "yes" below if you
+              agree to the terms of our auto-renewing monthly membership.
             </p>
-          )}
+            <Controller
+              name="renew"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup
+                  {...field}
+                  onValueChange={field.onChange} // Ensures RHF tracks changes
+                >
+                  {["Yes", "No"].map((plan, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <RadioGroupItem value={plan} id={`${index + 1}`} />
+                      <Label className="text-xl font-medium text-primary-black/85">
+                        {plan}
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              )}
+            />
+          </div>
         </div>
 
         {/* ---- Credit Card ---- */}

@@ -15,7 +15,7 @@ const priceData = [
     color: "#976FBF",
   },
   {
-    child: 4,
+    child: "4-5",
     price: 45,
     color: "#F26D6D",
   },

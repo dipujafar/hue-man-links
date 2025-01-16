@@ -68,7 +68,7 @@ const MessageContainer = () => {
         setChatListLoading(false);
       });
     };
-  }, [socket, user?.id, reEmit]);
+  }, [socket, user?.id]);
 
   // ================================== Listen for active user =============================================
   useEffect(() => {
@@ -85,14 +85,14 @@ const MessageContainer = () => {
         });
       }
     };
-  }, [socket, user?.id, reEmit]);
+  }, [socket, user?.id]);
 
   // ==================================== Get chart list ==============================================
   useEffect(() => {
     if (socket && user?.id) {
       socket.emit("my-chat-list");
     }
-  }, [socket, user?.id, reEmit]);
+  }, [socket, user?.id]);
 
   // ==================================== emit active list ==============================================
   useEffect(() => {
@@ -101,7 +101,7 @@ const MessageContainer = () => {
         // nothing do
       });
     }
-  }, [socket, user?.id, reEmit]);
+  }, [socket, user?.id]);
 
   // ================================== Listen for message ==============================================
   useEffect(() => {

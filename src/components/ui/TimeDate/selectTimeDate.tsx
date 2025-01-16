@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Control, Controller } from "react-hook-form";
-import { format, isBefore, isSameDay } from "date-fns";
+import { format, isBefore } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -162,14 +162,16 @@ export function DateTimeSelector({
   );
 }
 
-// Helper: Generate time options
+// Helper: Generate time options in AM/PM format
 function generateTimeOptions() {
   const options = [];
   for (let hour = 0; hour < 24; hour++) {
     for (let minute = 0; minute < 60; minute += 30) {
-      const time = `${hour.toString().padStart(2, "0")}:${minute
+      const hour12 = hour % 12 === 0 ? 12 : hour % 12; // Convert to 12-hour format
+      const period = hour < 12 ? "AM" : "PM"; // Determine AM/PM
+      const time = `${hour12.toString().padStart(2, "0")}:${minute
         .toString()
-        .padStart(2, "0")}`;
+        .padStart(2, "0")} ${period}`;
       options.push(time);
     }
   }
@@ -178,8 +180,18 @@ function generateTimeOptions() {
 
 // Helper: Check if one time is after another
 function isTimeAfter(time1: string, time2: string) {
-  const [hour1, minute1] = time1.split(":").map(Number);
-  const [hour2, minute2] = time2.split(":").map(Number);
+  const convertTo24Hour = (time: string) => {
+    const [hoursMinutes, period] = time.split(" ");
+    const [hours, minutes] = hoursMinutes.split(":").map(Number);
 
-  return hour1 > hour2 || (hour1 === hour2 && minute1 > minute2);
+    const hours24 =
+      period === "PM" && hours !== 12
+        ? hours + 12
+        : period === "AM" && hours === 12
+        ? 0
+        : hours;
+    return hours24 * 60 + minutes; // Return total minutes
+  };
+
+  return convertTo24Hour(time1) > convertTo24Hour(time2);
 }

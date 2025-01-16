@@ -61,8 +61,7 @@ const ManageSubscriptionContainer = () => {
       >
         <div className="mt-5 xl:mt-10">
           <p className="text-lg font-light">
-            you can apply for as many jobs as you like!you can apply for as many
-            jobs as you like!
+            you can apply to as many jobs as possible!
           </p>
           <div className="mx-auto flex items-center justify-center flex-wrap gap-2 mt-10 px-9">
             <Button
