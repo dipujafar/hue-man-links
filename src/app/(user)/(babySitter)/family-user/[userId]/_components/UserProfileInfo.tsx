@@ -5,12 +5,19 @@ import icon4 from "@/assets/icons/locationIcon.png";
 import Image from "next/image";
 import Link from "next/link";
 import { TFamilyUserData } from "@/types";
+import { useAppSelector } from "@/redux/hooks";
+import { cn } from "@/lib/utils";
 
 const UserProfileInfo = ({ data }: { data: TFamilyUserData }) => {
+  const user: any = useAppSelector((state) => state.auth.user);
+
   return (
     <div className="lg:space-y-10 space-y-5">
       {/* Contact Button */}
-      <Link href={"/message"}>
+      <Link
+        href={`/message?userFrom=${data?.familyUser?.userId}`}
+        className={cn(user?.id === data?.familyUser?.userId && "hidden")}
+      >
         <Button className="w-full py-6 bg-primary-orange group hover:bg-primary-orange/75">
           <MessageCircleMore className="mr-2 group-hover:animate-ping" />
           {data?.familyUser?.personName}

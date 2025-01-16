@@ -17,7 +17,7 @@ const ProfileInfo = ({ data }: { data: TBabysitterUser }) => {
     <div className="lg:space-y-10 space-y-5">
       {/* Contact Button */}
       {user?.role === "FAMILY_USER" && (
-        <Link href={"/message"}>
+        <Link href={`/message?userFrom=${data?.babysitter?.userId}`}>
           <Button className="w-full py-6 bg-primary-orange group hover:bg-primary-orange/75 group">
             <MessageCircleMore className="mr-2 group-hover:animate-ping" />{" "}
             Contact {data?.babysitter?.firstName}

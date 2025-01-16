@@ -30,6 +30,7 @@ import { useUpdateJobStatusMutation } from "@/redux/api/userJobsApi";
 import { TError, TJobApplication } from "@/types";
 import { motion } from "framer-motion";
 import { MessageCircleMore } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -119,13 +120,19 @@ const BookSitterPending = ({ data }: { data: TJobApplication[] }) => {
           >
             <JobApplyCard data={jobApplyData}>
               <div className="flex flex-col md:flex-row items-center justify-between gap-x-2 gap-y-2 ">
-                <Button className="w-full bg-primary-orange hover:bg-primary-gray group flex-1">
-                  <MessageCircleMore
-                    size={20}
-                    className="mr-2 group-hover:animate-ping"
-                  />
-                  Message
-                </Button>
+                <div className="flex-1">
+                  <Link
+                    href={`/message?userFrom=${jobApplyData?.babysitter?.userId}`}
+                  >
+                    <Button className="w-full bg-primary-orange hover:bg-primary-gray group flex-1">
+                      <MessageCircleMore
+                        size={20}
+                        className="mr-2 group-hover:animate-ping"
+                      />
+                      Message
+                    </Button>
+                  </Link>
+                </div>
                 <div
                   className="flex-1 w-full"
                   onClick={() =>

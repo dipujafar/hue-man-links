@@ -26,6 +26,13 @@ const userProfileApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes?.userProfile],
     }),
+    getSingleUserProfile: builder.query({
+      query: (id) => ({
+        url: `user/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes?.userProfile],
+    }),
   }),
 });
 
@@ -33,4 +40,5 @@ export const {
   useGetUserProfileQuery,
   useUpdateSitterProfileMutation,
   useUpdateFamilyProfileMutation,
+  useGetSingleUserProfileQuery,
 } = userProfileApi;

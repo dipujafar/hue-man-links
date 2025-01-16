@@ -5,6 +5,7 @@ import {
 } from "@/animation/framerMotionVariants";
 import { ConfirmModal, Error_Modal } from "@/components/modals/modals";
 import BabySitterCard from "@/components/shared/BabySitterCard";
+import Empty from "@/components/shared/Empty";
 import PostCardSkeleton from "@/components/shared/PostCardSkeleton";
 import {
   useGetFavoriteSitterQuery,
@@ -60,32 +61,40 @@ const FavoriteBabySitters = () => {
         viewport={{ once: true }}
         className="grid grid-cols-1  xl:w-[70%] mx-auto gap-y-10 "
       >
-        {allFavoriteSitters?.data?.map((babySitter: any, index: number) => (
-          <motion.div
-            variants={childrenVariants}
-            key={index}
-            className="lg:space-y-10 space-y-5"
-          >
-            <div className="relative">
-              <Link href={`/all-babysitters/${babySitter?.babysitter?.userId}`}>
-                <BabySitterCard data={babySitter}></BabySitterCard>
-              </Link>
+        {allFavoriteSitters?.data?.length ? (
+          allFavoriteSitters?.data?.map((babySitter: any, index: number) => (
+            <motion.div
+              variants={childrenVariants}
+              key={index}
+              className="lg:space-y-10 space-y-5"
+            >
+              <div className="relative">
+                <Link
+                  href={`/all-babysitters/${babySitter?.babysitter?.userId}`}
+                >
+                  <BabySitterCard data={babySitter}></BabySitterCard>
+                </Link>
 
-              {/* Favorite Button */}
-              <div
-                className="absolute top-4 right-4 bg-foundation-white p-2 rounded-full cursor-pointer"
-                onClick={() => handleFavoriteSitter(babySitter?.babysitter?.id)}
-              >
-                <Heart fill="#F26D6D" className="text-[#F26D6D]" />
+                {/* Favorite Button */}
+                <div
+                  className="absolute top-4 right-4 bg-foundation-white p-2 rounded-full cursor-pointer"
+                  onClick={() =>
+                    handleFavoriteSitter(babySitter?.babysitter?.id)
+                  }
+                >
+                  <Heart fill="#F26D6D" className="text-[#F26D6D]" />
+                </div>
               </div>
-            </div>
-            {index !== allFavoriteSitters?.data?.length - 1 && (
-              <div>
-                <hr />
-              </div>
-            )}
-          </motion.div>
-        ))}
+              {index !== allFavoriteSitters?.data?.length - 1 && (
+                <div>
+                  <hr />
+                </div>
+              )}
+            </motion.div>
+          ))
+        ) : (
+          <Empty message="No Favorite Sitter"></Empty>
+        )}
       </motion.div>
 
       {/*pagination  */}

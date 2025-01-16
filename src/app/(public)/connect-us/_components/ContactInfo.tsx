@@ -21,7 +21,10 @@ const ContactInfo = () => {
       </div>
 
       <div className="flex gap-x-5 justify-start">
-        <Link href={"#"}>
+        <Link
+          href={"https://www.facebook.com/share/14hGW5vKhn/?mibextid=wwXIfr"}
+          target="_blank"
+        >
           <Image src={facebook} alt="facebook" width={30} height={30}></Image>
         </Link>
 

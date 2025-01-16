@@ -82,7 +82,9 @@ const BookSitterRequest = ({ data }: { data: TJobApplication[] }) => {
               <div className="flex gap-x-4 gap-y-2 flex-col md:flex-row ">
                 {/* message button */}
                 <div className="flex-1">
-                  <Link href={"/message"}>
+                  <Link
+                    href={`/message?userFrom=${jobApplyData?.babysitter?.userId}`}
+                  >
                     <Button className="w-full bg-primary-orange hover:bg-primary-gray group">
                       <MessageCircleMore
                         size={20}

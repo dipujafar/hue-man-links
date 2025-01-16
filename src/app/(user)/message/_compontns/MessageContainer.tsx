@@ -3,17 +3,9 @@ import { Input } from "@/components/ui/input";
 import ReceiverMsgCard from "./ReceiverMsgCard";
 import UserCard from "./UserCard";
 import Image from "next/image";
-import {
-  ArrowLeft,
-  CircleOff,
-  MoveLeft,
-  PlusCircleIcon,
-  SendHorizontal,
-  X,
-} from "lucide-react";
+import { MoveLeft, PlusCircleIcon, SendHorizontal, X } from "lucide-react";
 import OwnerMsgCard from "./OwnerMsgCard";
 import { Button } from "@/components/ui/button";
-import userImg from "@/assets/Images/message/user1.png";
 import { useSocket } from "@/context/SocketContextApi";
 import { useAppSelector } from "@/redux/hooks";
 import { use, useEffect, useRef, useState } from "react";
@@ -24,6 +16,8 @@ import { TMessage } from "@/types";
 import CustomAvatar from "@/components/shared/CustomAvatar";
 import useMultipleFileUpload from "@/hooks/useMultipleFileUpload";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useGetSingleUserProfileQuery } from "@/redux/api/userProfileApi";
 
 export interface UploadedImage {
   id: string;
@@ -50,8 +44,10 @@ const MessageContainer = () => {
   const { socket } = useSocket();
   const user: any = useAppSelector((state) => state.auth.user);
   const [upload] = useMultipleFileUpload();
-
   const { register, handleSubmit, reset } = useForm();
+  const userFrom = useSearchParams().get("userFrom");
+  const fromUserProfile = useGetSingleUserProfileQuery(userFrom || undefined);
+  const formUserProfileData = fromUserProfile?.data?.data || null;
 
   // ==================================== on my chart list ==============================================
   useEffect(() => {
@@ -113,6 +109,7 @@ const MessageContainer = () => {
         setMessageLoading(false);
       });
     }
+    setMessageLoading(false);
 
     return () => {
       if (socket && user?.id && chatId) {
@@ -122,7 +119,7 @@ const MessageContainer = () => {
         });
       }
     };
-  }, [socket, user?.id, chatId, messages]);
+  }, [socket, user?.id, chatId]);
 
   // ================================== emit message ==============================================
   useEffect(() => {
@@ -146,11 +143,11 @@ const MessageContainer = () => {
 
   // ==================================== set selected user ids ==============================================
   useEffect(() => {
-    if (selectedUser) {
+    if (selectedUser || userFrom) {
       setChartId(selectedUser?.message?.chatId);
-      setSelectedUserId(selectedUser?.userData?.userId);
+      setSelectedUserId(selectedUser?.userData?.userId || userFrom);
     }
-  }, [selectedUser]);
+  }, [selectedUser, userFrom]);
 
   // =================================== submit message ==============================================
   const handleSendMessage = async (data: any) => {
@@ -165,13 +162,13 @@ const MessageContainer = () => {
         files: uploadFiles,
       };
 
-      console.log(payload);
-
       if (socket && user?.id && selectedUserId) {
         socket.emit("send-message", payload, () => {
           // nothing do
         });
         reset();
+        setImages([]);
+        setUploadedImages([]);
         return;
       }
     }
@@ -188,30 +185,30 @@ const MessageContainer = () => {
     }
   };
 
-  // ===================================== listen for new message ===============================================
-  useEffect(() => {
-    if (socket && user?.id && chatId) {
-      socket.on(`new-message::${user?.id}`, (res) => {
-        if (!res?.data) return null;
-        if (messages?.data?.length > 0) {
-          return setMessage([...messages, res?.data]);
-        }
-        setMessage([...messages, res?.data]);
-      });
-    }
+  // // ===================================== listen for new message ===============================================
+  // useEffect(() => {
+  //   if (socket && user?.id && chatId) {
+  //     socket.on(`new-message::${user?.id}`, (res) => {
+  //       if (!res?.data) return null;
+  //       if (messages?.data?.length > 0) {
+  //         return setMessage([...messages, res?.data]);
+  //       }
+  //       setMessage([...messages, res?.data]);
+  //     });
+  //   }
 
-    return () => {
-      if (socket && user?.id && chatId) {
-        socket.off(`new-message::${user?.id}`, (res) => {
-          if (!res?.data) return null;
-          if (messages?.data?.length > 0) {
-            return setMessage([...messages, res?.data]);
-          }
-          setMessage([...messages, res?.data]);
-        });
-      }
-    };
-  });
+  //   return () => {
+  //     if (socket && user?.id && chatId) {
+  //       socket.off(`new-message::${user?.id}`, (res) => {
+  //         if (!res?.data) return null;
+  //         if (messages?.data?.length > 0) {
+  //           return setMessage([...messages, res?.data]);
+  //         }
+  //         setMessage([...messages, res?.data]);
+  //       });
+  //     }
+  //   };
+  // });
 
   // // ===================================== scroll to bottom of chat box ==============================================
   useEffect(() => {
@@ -241,13 +238,12 @@ const MessageContainer = () => {
         // nothing do
       });
     }
-  });
+  }, [socket, user?.id, messages]);
 
   // ===================================== listen for typing users ==============================================
   useEffect(() => {
     if (socket && user?.id) {
       socket.on(`typing::${chatId}`, (res) => {
-        console.log(res?.data);
         setTyping(res?.data);
       });
     }
@@ -255,7 +251,6 @@ const MessageContainer = () => {
     return () => {
       if (socket && user?.id) {
         socket.off(`typing::${chatId}`, (res) => {
-          console.log(res?.data);
           setTyping(res?.data);
         });
       }
@@ -288,7 +283,35 @@ const MessageContainer = () => {
     }
   };
 
-  // console.log(chatList);
+  // ========================== set selected user profile form outside user ============================
+  useEffect(() => {
+    if (formUserProfileData) {
+      const fromUserProfile = {
+        message: null,
+        unseen: null,
+        unseenMessage: null,
+        userData: {
+          babysitter: formUserProfileData?.babysitter
+            ? {
+                firstName: formUserProfileData?.babysitter?.firstName,
+                lastName: formUserProfileData?.babysitter?.lastName,
+              }
+            : null,
+          familyUser: formUserProfileData?.familyUser
+            ? {
+                personName: formUserProfileData?.familyUser?.personName,
+              }
+            : null,
+          profilePicture: formUserProfileData?.profilePicture,
+        },
+      };
+
+      if (!selectedUser) {
+        setSelectedUser(fromUserProfile);
+      }
+    }
+  }, [formUserProfileData, userFrom]);
+
   return (
     <div className="lg:mx-auto">
       <div className="relative z-10 flex flex-col rounded-xl rounded-t-xl lg:border-t-8 lg:border-t-primary-orange  md:px-10 lg:py-8 lg:flex-row">
@@ -296,7 +319,7 @@ const MessageContainer = () => {
         <div
           className={cn(
             "border-opacity-[40%] pr-2 xl:w-[25%] lg:w-[35%] lg:border-r-2 lg:border-gray-300 lg:block",
-            selectedUserId || chatId ? "hidden" : "block"
+            selectedUserId ? "hidden" : "block"
           )}
         >
           <div className="border-t-black flex items-end gap-x-5 border-b border-opacity-[40%] py-4 text-black">
@@ -311,7 +334,7 @@ const MessageContainer = () => {
               onChange={(e) => setSearch(e.target.value)}
             /> */}
             {/* =============================== display charlist =============================== */}
-            <div className="scroll-hide mt-8  lg:max-h-[80vh] space-y-5 overflow-auto">
+            <div className="scroll-hide mt-8  max-h-[70vh] min-h-[65vh] space-y-5 overflow-auto">
               {chatListLoading ? (
                 <>
                   {Array.from({ length: 10 }, (_, i) => (
@@ -326,6 +349,7 @@ const MessageContainer = () => {
                 chatList?.map((chatData: any) => (
                   <UserCard
                     setSelectedUser={setSelectedUser}
+                    selectedUserId={selectedUserId}
                     key={chatData?.id}
                     user={{
                       userData: chatData?.participants?.[0],
@@ -344,10 +368,10 @@ const MessageContainer = () => {
         <div
           className={cn(
             "scroll-hide flex h-full flex-col justify-between rounded-tl-lg lg:block  lg:flex-grow",
-            selectedUserId || chatId ? "block" : "hidden"
+            selectedUserId ? "block" : "hidden"
           )}
         >
-          {!selectedUser ? (
+          {!selectedUserId ? (
             <div className="flex h-[80vh] items-center justify-center">
               <div className="flex items-center gap-x-3 font-dm-sans text-2xl">
                 <PlusCircleIcon size={28} /> Start a conversation
@@ -403,9 +427,9 @@ const MessageContainer = () => {
                   </div>
                 </div>
 
-                <button className="flex items-center gap-x-1">
+                {/* <button className="flex items-center gap-x-1">
                   <CircleOff size={20} color="#d55758" />
-                </button>
+                </button> */}
               </div>
 
               <div
@@ -414,58 +438,96 @@ const MessageContainer = () => {
                 )}
                 ref={chatBoxRef}
               >
-                {messages?.map((message: TMessage, index: number) => {
-                  const isPreviousMessageFromSameSender =
-                    index > 0 &&
-                    messages[index - 1]?.senderId === message.senderId;
+                {messageLoading ? (
+                  <div className="space-y-1">
+                    {Array.from({ length: 20 }, (_, i) =>
+                      i % 2 === 0 ? (
+                        <div className="flex items-start gap-x-2 " key={i}>
+                          <div
+                            className={cn(
+                              "md:max-w-[49%] max-w-[75%] space-y-3 overflow-hidden flex-1"
+                            )}
+                          >
+                            <Skeleton className="h-[25px] flex-1"></Skeleton>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className="flex flex-row-reverse items-start gap-x-4"
+                          key={i}
+                        >
+                          <div
+                            className={cn(
+                              "md:max-w-[49%] max-w-[75%] space-y-3 overflow-hidden flex-1"
+                            )}
+                          >
+                            <Skeleton className="h-[25px] flex-1"></Skeleton>
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                ) : (
+                  messages?.map((message: TMessage, index: number) => {
+                    const isPreviousMessageFromSameSender =
+                      index > 0 &&
+                      messages[index - 1]?.senderId === message.senderId;
 
-                  const showAvatar =
-                    !isPreviousMessageFromSameSender || index === 0; // Show avatar only if it's the first in a series or the first message overall.
+                    const showAvatar =
+                      !isPreviousMessageFromSameSender || index === 0; // Show avatar only if it's the first in a series or the first message overall.
 
-                  return message?.senderId !== user?.id ? (
-                    <div className="flex items-start gap-x-2" key={message.id}>
-                      {showAvatar && (
-                        <CustomAvatar
-                          img={selectedUser?.userData?.profilePicture}
-                          name={
-                            selectedUser?.userData?.familyUser?.personName ||
-                            selectedUser?.userData?.babysitter?.firstName
-                          }
-                          className="size-8 rounded-full"
-                        />
-                      )}
+                    return message?.senderId !== user?.id ? (
                       <div
-                        className={cn(
-                          "md:max-w-[50%] max-w-[75%] space-y-3 overflow-hidden",
-                          !showAvatar && "pl-10"
-                        )}
+                        className="flex items-start gap-x-2"
+                        key={message.id}
                       >
-                        <ReceiverMsgCard
-                          message={message?.content}
-                          files={message?.files?.length ? message?.files : null}
-                        />
+                        {showAvatar && (
+                          <CustomAvatar
+                            img={selectedUser?.userData?.profilePicture}
+                            name={
+                              selectedUser?.userData?.familyUser?.personName ||
+                              selectedUser?.userData?.babysitter?.firstName
+                            }
+                            className="size-8 rounded-full"
+                          />
+                        )}
+                        <div
+                          className={cn(
+                            "md:max-w-[50%] max-w-[75%] space-y-3 overflow-ellipsis",
+                            !showAvatar && "pl-10"
+                          )}
+                        >
+                          <ReceiverMsgCard
+                            message={message?.content}
+                            files={
+                              message?.files?.length ? message?.files : null
+                            }
+                          />
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <div
-                      className="flex flex-row-reverse items-start gap-x-4"
-                      key={message.id}
-                    >
-                      <div className="flex md:max-w-[50%] max-w-[75%] flex-col items-end space-y-1">
-                        <OwnerMsgCard
-                          message={message?.content}
-                          files={message?.files?.length ? message?.files : null}
-                        />
+                    ) : (
+                      <div
+                        className="flex flex-row-reverse items-start gap-x-4"
+                        key={message.id}
+                      >
+                        <div className="flex md:max-w-[50%] max-w-[75%] flex-col items-end space-y-1 break-words">
+                          <OwnerMsgCard
+                            message={message?.content}
+                            files={
+                              message?.files?.length ? message?.files : null
+                            }
+                          />
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
 
               <div className="mt-5 relative">
-                {uploadedImages.length > 0 && (
+                {uploadedImages?.length > 0 && (
                   <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4   bg-gray-200 w-full px-10">
-                    {uploadedImages.map((image) => (
+                    {uploadedImages?.map((image) => (
                       <div
                         key={image.id}
                         className="relative group flex flex-col justify-center items-center gap-x-2 py-2"
@@ -476,7 +538,7 @@ const MessageContainer = () => {
                             alt="Uploaded preview"
                             width={1200}
                             height={1200}
-                            className=" rounded-lg max-w-44 w-auto mx-auto h-20"
+                            className="rounded-lg md:max-w-44 w-auto mx-auto h-20 max-w-36"
                           />
                         )}
 

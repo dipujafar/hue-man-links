@@ -37,27 +37,22 @@ const AllJobPostsContainer = () => {
 
   return (
     <div className="lg:space-y-14 space-y-6">
-      {allJobPostData?.data?.data?.length ? (
-        <MovementElement duration={0.1} y="-20%">
-          <div className="relative hidden w-2/3 items-center lg:flex xl:w-1/2 mx-auto">
-            <Input
-              type="text"
-              placeholder="search city/zipcode"
-              className="w-full rounded-3xl pl-14 py-8 border-2 border-light-gray shadow-md"
-              onChange={(e) => {
-                setSearch(e.target.value);
-              }}
-            />
-            <Search
-              className="absolute left-4 border-none font-light"
-              size={24}
-            />
-          </div>
-        </MovementElement>
-      ) : (
-        ""
-      )}
-
+      <MovementElement duration={0.1} y="-20%">
+        <div className="relative hidden w-2/3 items-center lg:flex xl:w-1/2 mx-auto">
+          <Input
+            type="text"
+            placeholder="search city/zipcode"
+            className="w-full rounded-3xl pl-14 py-8 border-2 border-light-gray shadow-md"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+          <Search
+            className="absolute left-4 border-none font-light"
+            size={24}
+          />
+        </div>
+      </MovementElement>
       {/* all baby sitters cards */}
 
       {isJobDataLoading ? (
@@ -85,7 +80,7 @@ const AllJobPostsContainer = () => {
                 <Link href={`/post-details?postId=${jobData?.id}`}>
                   <JobCard data={jobData}></JobCard>
                 </Link>
-                <hr />
+                {allJobPostData?.data?.data?.length - 1 !== index && <hr />}
               </motion.div>
             )
           )}

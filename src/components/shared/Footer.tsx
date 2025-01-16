@@ -24,7 +24,12 @@ const Footer = () => {
               </Link>
             </div>
             <div className="flex gap-x-5 justify-center mt-4">
-              <Link href={"#"}>
+              <Link
+                href={
+                  "https://www.facebook.com/share/14hGW5vKhn/?mibextid=wwXIfr"
+                }
+                target="_blank"
+              >
                 <Image
                   src={facebook}
                   alt="facebook"

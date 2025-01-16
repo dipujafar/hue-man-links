@@ -27,5 +27,7 @@ export const config = {
     "/settings",
     "/personalInformation",
     "/book-babysitter-request",
+    "/book-sitter",
+    "/book-request",
   ],
 };

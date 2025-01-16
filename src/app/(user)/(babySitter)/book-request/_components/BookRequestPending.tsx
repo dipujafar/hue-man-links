@@ -35,7 +35,9 @@ const BookRequestPending = ({ data }: { data: TBabysittingRequest[] }) => {
               <JobCard data={jobData?.jobPost}>
                 <div className="flex flex-col md:flex-row items-center justify-between gap-x-2 gap-y-2 ">
                   <div className="flex-1">
-                    <Link href={"/message"}>
+                    <Link
+                      href={`/message?userFrom=${jobData?.jobPost?.userId}`}
+                    >
                       <Button className="w-full bg-primary-orange hover:bg-primary-gray group flex-1">
                         <MessageCircleMore
                           size={20}

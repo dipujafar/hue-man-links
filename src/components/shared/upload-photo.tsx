@@ -66,6 +66,7 @@ export function PhotoUpload({
             multiple
             onChange={handleUpload}
             disabled={isUploading || uploadedImages.length >= maxImages}
+            accept="image/*"
           />
           <div className="">
             <Paperclip></Paperclip>
