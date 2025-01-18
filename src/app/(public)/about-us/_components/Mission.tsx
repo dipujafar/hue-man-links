@@ -19,7 +19,7 @@ const Mission = () => {
           <p>
             At Hue-Man Links Incorporated, our mission is to connect families
             whose loved ones are neurodivergent with qualified, specialized
-            sitters We understand the demands and challenges families face, and
+            sitters. We understand the demands and challenges families face, and
             we're dedicated to providing trusted, compassionate care that offers
             peace of mind. Our goal is to ease the burden, giving families the
             confidence to take time for themselves, knowing their loved one is
