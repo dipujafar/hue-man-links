@@ -76,7 +76,7 @@ export default function CountryStateCitySelector({
     <div className="space-y-3">
       <div className="grid w-full grid-cols-2 gap-x-3 gap-y-3 lg:grid-cols-3">
         {/* Country Selector */}
-        <div>
+        <div className="hidden">
           <Controller
             name="country"
             control={control}
@@ -113,7 +113,7 @@ export default function CountryStateCitySelector({
         </div>
 
         {/* State Selector */}
-        <div>
+        <div className="hidden">
           {selectedCountry ? (
             <Controller
               name="state"
@@ -203,15 +203,13 @@ export default function CountryStateCitySelector({
             </Select>
           )}
         </div>
-      </div>
 
-      {/* Additional Fields */}
-      <div className="grid w-full grid-cols-2 gap-x-3 gap-y-3 lg:grid-cols-3">
+        {/* area */}
         <div>
           <Input
             type="text"
             defaultValue={userAddress?.area}
-            placeholder="Type Area"
+            placeholder="Type Address"
             className="py-5 bg-primary-light-gray"
             {...register("area", { required: "Area is required" })}
           />
@@ -219,7 +217,25 @@ export default function CountryStateCitySelector({
             <p className="text-red-600 text-sm">{errors.area.message}</p>
           )}
         </div>
+
+        {/* zip code */}
         <div>
+          <Input
+            defaultValue={userAddress?.zipCode}
+            type="text"
+            placeholder="Type Zip Code"
+            className="py-5 bg-primary-light-gray"
+            {...register("zipCode")}
+          />
+          {errors?.zipCode && (
+            <p className="text-red-600 text-sm">{errors.zipCode.message}</p>
+          )}
+        </div>
+      </div>
+
+      {/* Additional Fields */}
+      <div className="grid w-full grid-cols-2 gap-x-3 gap-y-3 lg:grid-cols-3">
+        <div className="hidden">
           <Input
             defaultValue={userAddress?.house}
             type="text"
@@ -229,18 +245,6 @@ export default function CountryStateCitySelector({
           />
           {errors?.house && (
             <p className="text-red-600 text-sm">{errors.house.message}</p>
-          )}
-        </div>
-        <div>
-          <Input
-            defaultValue={userAddress?.zipCode}
-            type="number"
-            placeholder="Type Zip Code"
-            className="py-5 bg-primary-light-gray"
-            {...register("zipCode")}
-          />
-          {errors?.zipCode && (
-            <p className="text-red-600 text-sm">{errors.zipCode.message}</p>
           )}
         </div>
       </div>

@@ -44,8 +44,8 @@ const BabySitterCard = ({ data }: { data: any }) => {
           <div className="flex flex-col md:flex-row gap-2 justify-between lg:items-center ">
             <p className="flex gap-x-2 items-center text-lg text-primary-gray md:max-w-xl max-w-[280px]">
               <MapPinHouse color="#F26D6D" size={20} />
-              {data?.babysitter?.user?.area}, {data?.babysitter?.user?.city},{" "}
-              {data?.babysitter?.user?.state}, {data?.babysitter?.user?.zipCode}
+              {data?.babysitter?.user?.area}, {data?.babysitter?.user?.zipCode},{" "}
+              {data?.babysitter?.user?.city}
             </p>
             <Dot color="#141414B2" className="hidden md:block"></Dot>
             <p className="flex  gap-2 items-center text-lg text-primary-gray truncate">

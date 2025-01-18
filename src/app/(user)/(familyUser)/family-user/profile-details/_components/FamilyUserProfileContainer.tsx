@@ -134,7 +134,6 @@ const FamilyUserProfileContainer = () => {
 
       const res = await updateProfile(formatted).unwrap();
       toast.success("Profile updated successfully.");
-      console.log(res);
     } catch (err: TError | any) {
       Error_Modal({ title: err?.data?.message });
     }
@@ -561,11 +560,11 @@ const FamilyUserProfileContainer = () => {
               control={control}
               errors={errors}
               userAddress={{
-                country: user?.country,
-                state: user?.state,
+                country: user?.country || "United States",
+                state: user?.state || "Georgia",
                 city: user?.city,
                 area: user?.area,
-                house: user?.houseNo,
+                house: user?.houseNo || "12",
                 zipCode: user?.zipCode,
               }}
               register={register}
@@ -578,14 +577,14 @@ const FamilyUserProfileContainer = () => {
 
         {/* ---- Additional Information ---- */}
         <div className="space-y-5">
-          <h1 className="text-2xl font-semibold text-primary-blue">
+          {/* <h1 className="text-2xl font-semibold text-primary-blue">
             Additional Information
-          </h1>
+          </h1> */}
 
           {/* ---- input   Household Details & Pet Details ---- */}
           <div className="flex flex-col md:flex-row gap-x-7 items-start gap-y-5">
             {/* ---- input   Pet Details ---- */}
-            <div className="grid w-full  items-center gap-1.5">
+            {/* <div className="grid w-full  items-center gap-1.5">
               <Label className="font-semibold text-lg text-primary-black/80">
                 Number of Pets
               </Label>
@@ -606,10 +605,10 @@ const FamilyUserProfileContainer = () => {
                 className="w-full  bg-primary-light-gray"
                 {...register("petDetails")}
               />
-            </div>
+            </div> */}
 
             {/* ---- input   Household Details ---- */}
-            <div className="grid w-full  items-center gap-1.5">
+            {/* <div className="grid w-full  items-center gap-1.5">
               <Label className="font-semibold text-lg text-primary-black/80">
                 Household Details
               </Label>
@@ -620,7 +619,7 @@ const FamilyUserProfileContainer = () => {
                 className="w-full  bg-primary-light-gray"
                 {...register("householdDetails")}
               />
-            </div>
+            </div> */}
           </div>
         </div>
 

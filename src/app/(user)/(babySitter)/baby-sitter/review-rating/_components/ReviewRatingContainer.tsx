@@ -14,8 +14,6 @@ const ReviewRatingContainer = () => {
     useGetUserReviewQuery(undefined);
   const reviews = reviewData?.data?.data;
 
-  console.log(reviews);
-
   const totalRating = reviews?.reduce(
     (acc: number, review: TReview) => acc + review?.rating,
     0

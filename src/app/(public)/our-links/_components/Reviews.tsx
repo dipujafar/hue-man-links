@@ -14,7 +14,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const Reviews = () => {
   const { data: reviews, isLoading } = useGetAllReviewsQuery(undefined);
-  console.log(reviews?.data?.data);
   return isLoading ? (
     <Skeleton className="h-[300px] w-full mt-10"></Skeleton>
   ) : reviews?.data?.data ? (

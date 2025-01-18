@@ -29,5 +29,6 @@ export const config = {
     "/book-babysitter-request",
     "/book-sitter",
     "/book-request",
+    "/all-job-posts",
   ],
 };

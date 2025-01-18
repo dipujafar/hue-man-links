@@ -48,7 +48,7 @@ const PlanCards2 = () => {
           <InfoDynamicCard
             className="bg-[#F26D6D] text-primary-white space-y-6 px-5   border-b-[6px] border-b-[#FBD2D2] border-r-[6px] border-r-[#FBD2D2]"
             title="Connection Lifeline"
-            subTitle="$250/Month + Linkers’ hourly rateUnlimited sits each month and 5 cancellation fees waived."
+            subTitle="$250/Month + Linkers’ hourly rate Unlimited sits each month and 5 cancellation fees waived."
           >
             <p>
               This tier is ideal for families who require immediate access to

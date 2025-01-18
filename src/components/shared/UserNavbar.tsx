@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import {
+  Bell,
   CalendarDays,
   Heart,
   MessageCircleMore,
@@ -20,6 +21,7 @@ import userDummyProfile from "@/assets/Images/make-connect/dummy_profile-removeb
 import { useAppSelector } from "@/redux/hooks";
 import { useGetUserProfileQuery } from "@/redux/api/userProfileApi";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useGetNotificationsQuery } from "@/redux/api/notificationApi";
 
 const sitterNavLinks = [
   {
@@ -56,6 +58,9 @@ const UserNavbar = ({ className }: { className?: string }) => {
   const currentPathName = pathname?.split("/")[1];
   const user: any = useAppSelector((state) => state.auth.user);
   const { data: userProfile } = useGetUserProfileQuery(undefined, {
+    skip: !user?.id,
+  });
+  const { data } = useGetNotificationsQuery(undefined, {
     skip: !user?.id,
   });
 
@@ -115,6 +120,9 @@ const UserNavbar = ({ className }: { className?: string }) => {
 
         {/* nav icons  and user profile*/}
         <div className="hidden lg:flex items-center justify-center gap-x-5">
+          <div>
+            <Bell />
+          </div>
           {user?.role === "FAMILY_USER" && (
             <Link href={"/favorite-babysitter"}>
               <Heart

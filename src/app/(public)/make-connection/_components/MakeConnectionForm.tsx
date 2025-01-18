@@ -108,11 +108,11 @@ const MakeConnectionForm = () => {
       area: data?.area,
       houseNo: data?.house,
       zipCode: data?.zipCode,
-      household: data?.householdDetails,
+      household: "nothing",
       personName: data?.personName,
       personPhoneNumber: data?.personPhoneNumber,
-      petDetails: data?.petDetails,
-      petCount: Number(data?.petCount),
+      petDetails: "nothing",
+      petCount: Number("12"),
       hearFrom: data?.hearFrom,
       membership: data?.membershipPlan,
       clients: clients,
@@ -510,11 +510,11 @@ const MakeConnectionForm = () => {
             <CountryStateCitySelector
               control={control}
               userAddress={{
-                country: "",
-                state: "",
+                country: "United States",
+                state: "Georgia",
                 city: "",
                 area: "",
-                house: "",
+                house: "12",
               }}
               register={register}
               setValue={setValue}
@@ -527,14 +527,14 @@ const MakeConnectionForm = () => {
 
         {/* ---- Additional Information ---- */}
         <div className="space-y-5">
-          <h1 className="text-2xl font-semibold text-primary-blue">
+          {/* <h1 className="text-2xl font-semibold text-primary-blue">
             Additional Information
-          </h1>
+          </h1> */}
 
           {/* ---- input   Household Details & Pet Details ---- */}
           <div className="flex flex-col md:flex-row gap-x-7 items-start gap-y-5">
             {/* ---- input   Pet Details ---- */}
-            <div className="grid w-full  items-center gap-1.5">
+            {/* <div className="grid w-full  items-center gap-1.5">
               <Label className="font-semibold text-lg text-primary-black/80">
                 Number of Pets
               </Label>
@@ -553,10 +553,10 @@ const MakeConnectionForm = () => {
                 className="w-full  bg-primary-light-gray"
                 {...register("petDetails")}
               />
-            </div>
+            </div> */}
 
             {/* ---- input   Household Details ---- */}
-            <div className="grid w-full  items-center gap-1.5">
+            {/* <div className="grid w-full  items-center gap-1.5">
               <Label className="font-semibold text-lg text-primary-black/80">
                 Household Details
               </Label>
@@ -566,19 +566,7 @@ const MakeConnectionForm = () => {
                 className="w-full  bg-primary-light-gray"
                 {...register("householdDetails")}
               />
-            </div>
-          </div>
-
-          <div className="grid w-full  items-center gap-1.5">
-            <Label className="font-semibold text-lg text-primary-black/80">
-              How did you hear about us?
-            </Label>
-            <Input
-              type="text"
-              id="hearFrom"
-              className="w-full py-5 bg-primary-light-gray"
-              {...register("hearFrom")}
-            />
+            </div> */}
           </div>
         </div>
 
@@ -750,6 +738,19 @@ const MakeConnectionForm = () => {
                 </p>
               )}
             </div>
+          </div>
+
+          {/* hear us */}
+          <div className="grid w-full  items-center gap-1.5">
+            <Label className="font-semibold text-lg text-primary-black/80">
+              How did you hear about us?
+            </Label>
+            <Input
+              type="text"
+              id="hearFrom"
+              className="w-full py-5 bg-primary-light-gray"
+              {...register("hearFrom")}
+            />
           </div>
         </div>
 

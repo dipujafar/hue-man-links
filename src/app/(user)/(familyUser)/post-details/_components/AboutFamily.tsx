@@ -17,6 +17,9 @@ import {
   Success_model,
 } from "@/components/modals/modals";
 import LoadingSpain from "@/components/loaders/LoadingSpain";
+import Link from "next/link";
+import { MessageCircleMore } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const AboutFamily = ({ data }: { data: TSingleJobPost }) => {
   const user: any = useAppSelector((state) => state.auth.user);
@@ -57,30 +60,41 @@ const AboutFamily = ({ data }: { data: TSingleJobPost }) => {
 
   return (
     <div>
-      {user?.role !== "FAMILY_USER" &&
-        status !== "false" &&
-        (status === "applied" ? (
-          <Button
-            onClick={handleCancelRequest}
-            className="mb-5 w-full py-6 bg-primary-orange group hover:bg-primary-orange/75"
-          >
-            {isCancelRequestLoading && (
-              <LoadingSpain color="#fff" className="mr-2" />
-            )}
-            Cancel Request
-          </Button>
-        ) : (
-          <Button
-            disabled={isApplyJobLoading}
-            onClick={handleApplyJobs}
-            className="mb-5 w-full py-6 bg-primary-orange group hover:bg-primary-orange/75"
-          >
-            {isApplyJobLoading && (
-              <LoadingSpain color="#fff" className="mr-2"></LoadingSpain>
-            )}
-            Apply Job
-          </Button>
-        ))}
+      <div className="flex gap-x-2">
+        {user?.role !== "FAMILY_USER" &&
+          status !== "false" &&
+          (status === "applied" ? (
+            <Button
+              onClick={handleCancelRequest}
+              className="mb-5 w-full py-6 bg-primary-orange group hover:bg-primary-orange/75"
+            >
+              {isCancelRequestLoading && (
+                <LoadingSpain color="#fff" className="mr-2" />
+              )}
+              Cancel Request
+            </Button>
+          ) : (
+            <Button
+              disabled={isApplyJobLoading}
+              onClick={handleApplyJobs}
+              className="mb-5 w-1/2 py-6 bg-primary-orange group hover:bg-primary-orange/75"
+            >
+              {isApplyJobLoading && (
+                <LoadingSpain color="#fff" className="mr-2"></LoadingSpain>
+              )}
+              Apply Job
+            </Button>
+          ))}
+
+        {user?.role !== "FAMILY_USER" && (
+          <Link href={`/message?userFrom=${data?.userId}`} className="w-1/2">
+            <Button className="w-full py-6 bg-primary-orange group hover:bg-primary-orange/75">
+              <MessageCircleMore className="mr-2 group-hover:animate-ping" />
+              Message
+            </Button>
+          </Link>
+        )}
+      </div>
 
       <div className="lg:space-y-6 space-y-3">
         <h4 className="md:text-3xl text-xl text-primary-blue font-medium">
@@ -100,10 +114,10 @@ const AboutFamily = ({ data }: { data: TSingleJobPost }) => {
           <div className="md:px-8 px-4 flex flex-wrap justify-between items-center gap-2">
             <div className=" flex gap-x-4">
               <Image src={icon3} alt="icon"></Image>
-              <p className="text-[#707071] font-medium">Number of pets</p>
+              <p className="text-[#707071] font-medium">Pets Details</p>
             </div>
             <h3 className="font-medium text-primary-blue max-w-[45%] text-end">
-              {data?.numberOfPets}
+              {data?.petDetails}
             </h3>
           </div>
           <hr />
@@ -113,9 +127,7 @@ const AboutFamily = ({ data }: { data: TSingleJobPost }) => {
               <p className="text-[#707071] font-medium">Location</p>
             </div>
             <h3 className="font-medium text-sm text-primary-blue">
-              {data?.houseNo && data?.houseNo + " No. House,"} {data?.area},{" "}
-              {data?.city}, {data?.state}{" "}
-              {data?.zipCode && ", " + data?.zipCode}
+              {data?.area}, {data?.zipCode}, {data?.city}
             </h3>
           </div>
           <hr />

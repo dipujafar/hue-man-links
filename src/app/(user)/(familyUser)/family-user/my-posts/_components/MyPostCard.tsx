@@ -52,8 +52,7 @@ const MyPostCard = ({
           <div className="flex flex-col md:flex-row gap-2 justify-between lg:items-center">
             <p className="flex gap-x-2  md:text-lg text-primary-gray lg:max-w-xl  md:max-w-sm">
               <MapPinHouse color="#F26D6D" size={18} className="w-fit" />
-              {data?.area}, {data?.city}, {data?.state}{" "}
-              {data?.zipCode && ", " + data?.zipCode}
+              {data?.area}, {data?.zipCode}, {data?.city}
             </p>
 
             <p className="flex  gap-2 items-center md:text-lg text-primary-gray">

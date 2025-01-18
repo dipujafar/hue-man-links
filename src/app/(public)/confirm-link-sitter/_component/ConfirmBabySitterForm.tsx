@@ -65,10 +65,7 @@ const ConfirmBabySitterForm = () => {
       toast.error("Please upload your resume.");
       return;
     }
-    if (data?.languages?.length === 0) {
-      toast.error("Please select at least one language.");
-      return;
-    }
+
     if (data?.skills?.length <= 2) {
       toast.error("Please select at least three skill.");
       return;
@@ -91,7 +88,7 @@ const ConfirmBabySitterForm = () => {
     const formattedData = {
       ...previousData,
       skills: data?.skills,
-      languages: data?.languages?.join(", "),
+      languages: data?.languages,
       education: data?.education,
       experience: data?.experience,
       unrestrictedHours: data?.unrestrictedHours,
@@ -142,12 +139,16 @@ const ConfirmBabySitterForm = () => {
             <Label className="font-semibold text-lg text-primary-black/80">
               Which language do you speak?
             </Label>
-            <MultipleSelect
-              name="languages"
-              control={control}
-              options={["Spanish", "English"]}
-              placeholder="select languages"
+            <Input
+              type="text"
+              className="w-full py-5 bg-primary-light-gray"
+              {...register("languages", { required: "Please enter language" })}
             />
+            {errors?.language && (
+              <p className="text-red-500">
+                {errors?.language.message as string}
+              </p>
+            )}
           </div>
 
           {/* input education level */}

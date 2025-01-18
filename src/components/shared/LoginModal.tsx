@@ -74,7 +74,6 @@ const LoginModal = ({
     } catch (err: TError | any) {
       const error = err?.data?.message?.split(",");
       if (error[0] === "before login you have get a subscription") {
-        console.log(error);
         setRole(error[1]);
         setEmail(data.email);
         setMessage("Before login you have get a subscription.");
@@ -91,7 +90,7 @@ const LoginModal = ({
         setOpen(false);
         return;
       }
-      console.log(error);
+
       Error_Modal({ title: err?.data?.message });
     }
 

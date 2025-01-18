@@ -23,6 +23,7 @@ type TChild = {
   createdAt: string;
   updatedAt: string;
   jobPostId: string;
+  gender: string;
 };
 
 export type TSingleJobPost = {
@@ -46,6 +47,8 @@ export type TSingleJobPost = {
   createdAt: string;
   updatedAt: string;
   children: TChild[];
+  petDetails: string;
+  houseHold: string;
 };
 
 // Define the user information

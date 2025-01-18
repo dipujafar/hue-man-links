@@ -38,8 +38,6 @@ const ForgetPasswordModal = ({
   } = useForm<TData>();
 
   const onSubmit = async (data: TData) => {
-    console.log(data);
-
     try {
       const res = await forgetPassword(data).unwrap();
       if (res?.data?.token) {

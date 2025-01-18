@@ -38,10 +38,8 @@ const SendReview = ({ id }: { id: string }) => {
         comment: comment,
       }).unwrap();
       toast.success("Review sent successfully.");
-      console.log(res);
       router.refresh();
     } catch (error: TError | any) {
-      console.log(error);
       Error_Modal({ title: error?.data?.message });
     }
   };

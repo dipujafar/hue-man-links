@@ -57,10 +57,8 @@ const VerifyOtpModal = ({
 
         return;
       } catch (err: TError | any) {
-        console.log(err?.data?.message);
         Error_Modal({ title: err?.data?.message });
         return;
-        
       }
     }
 

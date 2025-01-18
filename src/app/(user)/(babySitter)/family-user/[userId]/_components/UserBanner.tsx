@@ -15,12 +15,12 @@ const UserBanner = ({ data }: { data: TFamilyUserData }) => {
       ></Image>
 
       {/* profile details */}
-      <div className="text-primary-white flex flex-col items-center md:gap-y-5 gap-y-3">
+      <div className="text-primary-white flex flex-col items-center md:gap-y-1 gap-y-2">
         <h1 className="lg:text-5xl text-2xl font-medium">
           {data?.familyUser?.personName}
         </h1>
         <p className="lg:text-lg text-center">
-          Live in {data?.area}, {data?.city}, {data?.state}
+          Live in {data?.zipCode}, {data?.city}
         </p>
       </div>
     </div>

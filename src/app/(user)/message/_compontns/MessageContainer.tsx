@@ -50,8 +50,6 @@ const MessageContainer = () => {
   const formUserProfileData = fromUserProfile?.data?.data || null;
   const [reEmit, setReEmit] = useState(false);
 
-  // console.log(reEmit);
-
   // ==================================== on my chart list ==============================================
   useEffect(() => {
     setChatListLoading(true);

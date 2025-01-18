@@ -4,7 +4,6 @@ import AboutFamily from "./AboutFamily";
 import PostInfo from "./PostInfo";
 import SitterBanner from "./SitterBanner";
 import { useSingleJobQuery } from "@/redux/api/jobsApi";
-import { Skeleton } from "@/components/ui/skeleton";
 import DetailsPageSkeleton from "@/components/shared/DetailsPageSkeleton";
 
 const PostDetailsContainer = () => {
@@ -13,8 +12,6 @@ const PostDetailsContainer = () => {
     useSingleJobQuery(postId, {
       skip: !postId,
     });
-
-  console.log(SinglePostData);
 
   return isPostDataLoading ? (
     <DetailsPageSkeleton></DetailsPageSkeleton>

@@ -96,9 +96,7 @@ const BabySitterProfileContainer = () => {
 
       const res = await updateProfile(formatted).unwrap();
       toast.success("Profile updated successfully.");
-      console.log(res);
     } catch (err: TError | any) {
-      console.log(err);
       Error_Modal({ title: err?.data?.message });
     }
   };
@@ -323,11 +321,11 @@ const BabySitterProfileContainer = () => {
                 control={control}
                 errors={errors}
                 userAddress={{
-                  country: user?.country,
-                  state: user?.state,
+                  country: user?.country || "United States",
+                  state: user?.state || "Georgia",
                   city: user?.city,
                   area: user?.area,
-                  house: user?.houseNo,
+                  house: user?.houseNo || "12",
                   zipCode: user?.zipCode,
                 }}
                 register={register}

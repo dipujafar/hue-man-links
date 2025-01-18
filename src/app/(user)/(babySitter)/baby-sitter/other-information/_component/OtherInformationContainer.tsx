@@ -39,12 +39,11 @@ const OtherInformationContainer = () => {
   const { data: userData, isLoading: isUserDataLoading } =
     useGetUserProfileQuery(undefined);
   const user = userData?.data;
-  console.log(user);
 
   const onSubmit = async (data: any) => {
     const formatted = {
       skills: data.skills,
-      languages: data.languages?.join(", "),
+      languages: data.languages,
       education: data.education,
       unrestrictedHours: data.unrestrictedHours,
       occupation: data.occupation,
@@ -52,7 +51,6 @@ const OtherInformationContainer = () => {
       bio: data.bio,
     };
 
-    console.log(formatted);
     try {
       await updateProfile(formatted).unwrap();
       toast.success("Profile updated successfully.");
@@ -66,6 +64,7 @@ const OtherInformationContainer = () => {
       // setValue("skills", user?.babysitter?.skills);
       // setValue("languages", user?.babysitter?.languages?.split(","));
       setValue("education", user?.babysitter?.education);
+      setValue("languages", user?.babysitter?.languages);
       setValue("unrestrictedHours", user?.babysitter?.unrestrictedHours);
       setValue("occupation", user?.babysitter?.occupation);
       setValue("experience", user?.babysitter?.experience);
@@ -99,13 +98,17 @@ const OtherInformationContainer = () => {
               Which language do you speak?
             </Label>
 
-            <MultipleSelect
-              name="languages"
-              control={control}
-              options={["Spanish", "English"]}
-              placeholder="select languages"
-              defaultValues={user?.babysitter?.languages?.split(",")}
+            <Input
+              type="text"
+              className="w-full py-5 bg-primary-light-gray"
+              {...register("languages", { required: "Please enter language" })}
+              defaultValue={user?.babysitter?.languages}
             />
+            {errors?.language && (
+              <p className="text-red-500">
+                {errors?.language.message as string}
+              </p>
+            )}
           </div>
 
           {/* input education level */}

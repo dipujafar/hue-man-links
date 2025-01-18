@@ -66,9 +66,8 @@ const JobApplyCard = ({
           <div className="flex flex-col md:flex-row gap-2 justify-between lg:items-center">
             <p className="flex gap-x-2 items-center text-lg text-primary-gray">
               <MapPinHouse color="#F26D6D" size={20} />
-              {data?.jobPost?.area}, {data?.jobPost?.city},{" "}
-              {data?.jobPost?.state}{" "}
-              {data?.jobPost?.zipCode && ", " + data?.jobPost?.zipCode}
+              {data?.jobPost?.area}, {data?.jobPost?.zipCode},
+              {data?.jobPost?.city}
             </p>
             <Dot color="#141414B2" className="hidden md:block"></Dot>
             <p className="flex  gap-2 items-center text-lg text-primary-gray">

@@ -60,9 +60,9 @@ const BabySitterForm = () => {
       toast.error("Please upload a profile image.");
       return;
     }
+    toast.loading("processing...", { id: "createUser" });
     // @ts-ignore
     const fileRes = await upload(imageFile as File);
-    console.log(fileRes);
 
     const formattedData = {
       email: data.email,
@@ -83,6 +83,7 @@ const BabySitterForm = () => {
 
     sessionStorage.setItem("sitterData", JSON.stringify(formattedData));
 
+    toast.dismiss("createUser");
     router.push(`/confirm-link-sitter`);
   };
 
@@ -324,11 +325,11 @@ const BabySitterForm = () => {
               <CountryStateCitySelector
                 control={control}
                 userAddress={{
-                  country: "",
-                  state: "",
+                  country: "United States",
+                  state: "Georgia",
                   city: "",
                   area: "",
-                  house: "",
+                  house: "12",
                 }}
                 register={register}
                 setValue={setValue}

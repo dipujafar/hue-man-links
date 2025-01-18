@@ -2,13 +2,18 @@ import icon1 from "@/assets/icons/sitter/sitterPageIcon1.png";
 import icon2 from "@/assets/icons/sitter/sitterPageIcon2.png";
 import icon3 from "@/assets/icons/user/interestIcon.png";
 import { TSingleJobPost } from "@/types";
-import { CalendarDays, ChartSpline, Clock5, UsersRound } from "lucide-react";
+import {
+  Baby,
+  CalendarDays,
+  ChartSpline,
+  Clock5,
+  UsersRound,
+} from "lucide-react";
 import Image from "next/image";
 import moment from "moment";
 import SendReview from "@/components/shared/Review/SendReview";
 
 const PostInfo = ({ data }: { data: TSingleJobPost }) => {
-  console.log(data);
   return (
     <div className="lg:space-y-10 space-y-5">
       <p className="text-lg text-primary-gray">{data?.description}</p>
@@ -61,32 +66,32 @@ const PostInfo = ({ data }: { data: TSingleJobPost }) => {
         {data?.children?.map((child, index) => (
           <div key={index} className="lg:space-y-5 space-y-3">
             <div className="flex items-center gap-x-4">
-              <Image src={icon1} alt="icon1"></Image>
+              <Baby color="#f36e6e" />
               <div className="text-lg font-medium text-primary-black">
-                <h4>{index > 0 && index + 1 + "."} Child’s Name</h4>
+                <h4>{index > 0 && index + 1 + "."} Client's Name</h4>
                 <p>{child?.name}</p>
               </div>
             </div>
             <div className="flex items-center gap-x-4">
               <Image src={icon2} alt="icon1"></Image>
               <div className="text-lg font-medium text-primary-black">
-                <h4>Child's Age</h4>
+                <h4>Age of client</h4>
                 <p>{child?.age} years old</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-x-4">
+              <Image src={icon1} alt="icon1"></Image>
+              <div className="text-lg font-medium text-primary-black">
+                <h4>Child's Gender</h4>
+                <p>{child?.gender}</p>
               </div>
             </div>
             <div className="flex  gap-x-4">
               <Image src={icon3} alt="icon1" className="h-fit"></Image>
               <div className="text-lg font-medium text-primary-black">
-                <h4>Child's characteristic</h4>
-                <div className="flex flex-wrap   gap-2">
-                  {child?.characteristics?.map((characteristic) => (
-                    <p
-                      className="text-lg text-primary-violet py-1 px-3 bg-primary-violet/15 rounded-full font-medium w-fit truncate"
-                      key={characteristic}
-                    >
-                      {characteristic}
-                    </p>
-                  ))}
+                <h4>Client Information</h4>
+                <div className="flex flex-wrap   gap-2 ">
+                  {child?.characteristics}
                 </div>
               </div>
             </div>

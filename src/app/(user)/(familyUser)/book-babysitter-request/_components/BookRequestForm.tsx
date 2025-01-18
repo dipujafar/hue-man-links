@@ -2,22 +2,26 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import CountryStateCitySelector from "@/components/ui/CountryStateCitySelector";
 import { DateTimeSelector } from "@/components/ui/TimeDate/selectTimeDate";
-import { TagInput } from "@/components/ui/tagInput";
 import { useCreateJobMutation } from "@/redux/api/jobsApi";
 import { TError } from "@/types";
 import { Error_Modal, Success_model } from "@/components/modals/modals";
 import LoadingSpain from "@/components/loaders/LoadingSpain";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MinusCircle, Plus } from "lucide-react";
-import MultipleSelect from "@/components/ui/multiple-select";
-import { toast } from "sonner";
-import { useGetUserProfileQuery } from "@/redux/api/userProfileApi";
-import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type TJobData = {
   ageOfChildren?: string;
@@ -32,25 +36,26 @@ type TJobData = {
   description?: string;
   fullName?: string;
   house?: string;
-  languages?: string[];
+  languages?: string;
   numberOfChildren?: number;
   numberOfPets?: number;
   state?: string;
   tags?: string[];
   zipCode?: string;
+  petDetails?: string;
+  householdDetails?: string;
 };
 
 type Client = {
   name: string;
   age: "";
-  characteristics: string[];
+  characteristics: string;
+  gender: string;
 };
 
 const BookRequestForm = () => {
   const router = useRouter();
   const [createJob, { isLoading }] = useCreateJobMutation();
-  const { data: userProfileData, isLoading: isProfileDataLoading } =
-    useGetUserProfileQuery(undefined);
 
   const {
     register,
@@ -61,11 +66,14 @@ const BookRequestForm = () => {
   } = useForm();
 
   const [clients, setClients] = useState<Client[]>([
-    { name: "", age: "", characteristics: [] },
+    { name: "", age: "", characteristics: "", gender: "" },
   ]);
 
   const addClient = () => {
-    setClients([...clients, { name: "", age: "", characteristics: [] }]);
+    setClients([
+      ...clients,
+      { name: "", age: "", characteristics: "", gender: "" },
+    ]);
   };
 
   const removeClient = (index: number) => {
@@ -79,8 +87,6 @@ const BookRequestForm = () => {
   };
 
   const onSubmit: SubmitHandler<TJobData> = async (data) => {
-    if (data?.languages?.length === 0)
-      return toast.error("Please select at least one language");
     const formattedJobData = {
       date: data?.dateTime?.date,
       startTime: data?.dateTime?.startTime,
@@ -94,34 +100,23 @@ const BookRequestForm = () => {
       zipCode: data?.zipCode,
       children: clients,
       description: data?.description,
-      aboutFamily: data?.languages?.join(", "),
-      numberOfPets: Number(data?.numberOfPets),
+      aboutFamily: data?.languages,
+      // numberOfPets: Number(data?.numberOfPets),
+      petDetails: data?.petDetails,
+      houseHold: data?.householdDetails,
     };
 
     try {
       const res = await createJob(formattedJobData).unwrap();
-
       if (res?.data?.paymentLink) {
         router.push(res?.data?.paymentLink);
         return;
       }
-
       router.push(`/post-details?postId=${res?.data?.id}`);
     } catch (err: TError | any) {
       Error_Modal({ title: err?.data?.message });
     }
   };
-
-  useEffect(() => {
-    setValue("fullName", userProfileData?.data?.familyUser?.personName);
-    setValue("country", userProfileData?.data?.country);
-    setValue("state", userProfileData?.data?.state);
-    setValue("city", userProfileData?.data?.city);
-    setValue("area", userProfileData?.data?.area);
-    setValue("house", userProfileData?.data?.houseNo);
-    setValue("zipCode", userProfileData?.data?.zipCode);
-    setValue("numberOfPets", userProfileData?.data?.familyUser?.petCount);
-  }, [userProfileData]);
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -160,35 +155,21 @@ const BookRequestForm = () => {
             <Label className="font-semibold text-lg text-primary-black/80">
               Address
             </Label>
-            {isProfileDataLoading ? (
-              <>
-                <div className="flex gap-x-2 ">
-                  <Skeleton className="h-[40px] flex-1"></Skeleton>
-                  <Skeleton className="h-[40px] flex-1"></Skeleton>
-                  <Skeleton className="h-[40px] flex-1"></Skeleton>
-                </div>
-                <div className="flex gap-x-2 ">
-                  <Skeleton className="h-[40px] flex-1"></Skeleton>
-                  <Skeleton className="h-[40px] flex-1"></Skeleton>
-                  <Skeleton className="h-[40px] flex-1"></Skeleton>
-                </div>
-              </>
-            ) : (
-              <CountryStateCitySelector
-                control={control}
-                errors={errors}
-                userAddress={{
-                  country: userProfileData?.data?.country,
-                  state: userProfileData?.data?.state,
-                  city: userProfileData?.data?.city,
-                  area: userProfileData?.data?.area,
-                  house: userProfileData?.data?.houseNo,
-                  zipCode: userProfileData?.data?.zipCode,
-                }}
-                register={register}
-                setValue={setValue}
-              />
-            )}
+
+            <CountryStateCitySelector
+              control={control}
+              errors={errors}
+              userAddress={{
+                country: "United States",
+                state: "Georgia",
+                city: "",
+                area: "",
+                house: "12",
+                zipCode: "",
+              }}
+              register={register}
+              setValue={setValue}
+            />
           </div>
 
           {/* Children Information */}
@@ -204,12 +185,12 @@ const BookRequestForm = () => {
                 onClick={addClient}
               >
                 <Plus size={20} className="mr-1 group-hover:animate-bounce" />
-                Add another children
+                Add another client
               </Button>
             </div>
 
             {clients.map((client, index) => (
-              <div key={index} className="relative space-y-5 ">
+              <div key={index} className="relative space-y-5">
                 {/* Cancel Icon (shows only if more than one client) */}
                 {clients.length > 1 && (
                   <button
@@ -223,12 +204,11 @@ const BookRequestForm = () => {
                 )}
 
                 {/* Client Name and Birthday */}
-
-                <div className="flex flex-col md:flex-row gap-x-7 gap-y-5">
-                  {/* Input Children Name */}
+                <div className="flex flex-col md:flex-row gap-x-5 gap-y-5">
+                  {/* Input Client Name */}
                   <div className="grid w-full items-center gap-1.5">
                     <Label className="font-semibold text-lg text-primary-black/80">
-                      {index > 0 && index + 1 + "."} Children Name
+                      {index > 0 && index + 1 + "."} Client's Name
                     </Label>
                     <Input
                       type="text"
@@ -242,14 +222,14 @@ const BookRequestForm = () => {
                     />
                   </div>
 
-                  {/* Age of Children */}
+                  {/* Age of Client */}
                   <div className="grid w-full items-center gap-1.5">
                     <Label className="font-semibold text-lg text-primary-black/80">
-                      Age of Children
+                      Age of Client
                     </Label>
                     <Input
                       type="number"
-                      placeholder="Enter age of children"
+                      placeholder="Enter age of client"
                       min={0}
                       required
                       value={client.age}
@@ -259,16 +239,56 @@ const BookRequestForm = () => {
                       }
                     />
                   </div>
-                </div>
 
-                {/* Characteristics of the children */}
-                <div className="grid w-full  items-center gap-1.5">
+                  {/* Client Gender */}
+                  <div className="grid w-full items-center gap-1.5">
+                    <Label className="font-semibold text-lg text-primary-black/80">
+                      Client's Gender
+                    </Label>
+                    <Controller
+                      name={`clients[${index}].gender`}
+                      control={control}
+                      rules={{ required: "Gender is required" }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={client.gender}
+                          onValueChange={(value) => {
+                            updateClient(index, "gender", value);
+                            field.onChange(value);
+                          }}
+                        >
+                          <SelectTrigger className="w-full py-5 bg-primary-light-gray">
+                            <SelectValue placeholder="Select gender" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              {["Male", "Female"]?.map((item, idx) => (
+                                <SelectItem key={idx} value={item}>
+                                  {item}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                  </div>
+                </div>
+                {/* Input Client’s Info */}
+                <div className="grid w-full items-center gap-1.5">
                   <Label className="font-semibold text-lg text-primary-black/80">
-                    Characteristics of the children
+                    Client's Information
                   </Label>
-                  <TagInput
-                    value={client?.characteristics}
-                    onChange={(e) => updateClient(index, "characteristics", e)}
+                  <Textarea
+                    rows={2}
+                    placeholder="Interests, Allergies or Medical Conditions"
+                    value={client.characteristics}
+                    onChange={(e) =>
+                      updateClient(index, "characteristics", e.target.value)
+                    }
+                    className="w-full bg-primary-light-gray"
+                    required
                   />
                 </div>
               </div>
@@ -305,16 +325,20 @@ const BookRequestForm = () => {
               Languages
             </Label>
 
-            <MultipleSelect
-              name="languages"
-              control={control}
-              options={["Spanish", "English"]}
-              placeholder="select languages"
+            <Input
+              type="text"
+              className="w-full py-5 bg-primary-light-gray"
+              {...register("languages", { required: "Please enter language" })}
             />
+            {errors?.language && (
+              <p className="text-red-500">
+                {errors?.language.message as string}
+              </p>
+            )}
           </div>
 
           {/* input number of pets */}
-          <div className="grid w-full items-center gap-1.5">
+          {/* <div className="grid w-full items-center gap-1.5">
             <Label className="font-semibold text-lg text-primary-black/80">
               Number of Pets
             </Label>
@@ -332,10 +356,54 @@ const BookRequestForm = () => {
                 {errors.numberOfPets.message as string}
               </p>
             )}
+          </div> */}
+
+          {/* ---- Additional Information ---- */}
+          <div className="space-y-5">
+            {/* <h1 className="text-2xl font-semibold text-primary-blue">
+            Additional Information
+          </h1> */}
+
+            {/* ---- input   Household Details & Pet Details ---- */}
+            <div className="flex flex-col md:flex-row gap-x-7 items-start gap-y-5">
+              {/* ---- input   Household Details ---- */}
+              <div className="grid w-full  items-center gap-1.5">
+                <Label className="font-semibold text-lg text-primary-black/80">
+                  Household Details
+                </Label>
+                <Textarea
+                  rows={5}
+                  id="householdDetails"
+                  className="w-full  bg-primary-light-gray"
+                  {...register("householdDetails")}
+                />
+              </div>
+
+              {/* ---- input   Pet Details ---- */}
+              <div className="grid w-full  items-center gap-1.5">
+                {/* <Label className="font-semibold text-lg text-primary-black/80">
+                  Number of Pets
+                </Label>
+                <Input
+                  type="number"
+                  id="numberOfPet"
+                  className="w-full py-5 bg-primary-light-gray"
+                  {...register("petCount")}
+                ></Input> */}
+                <Label className="font-semibold text-lg text-primary-black/80">
+                  Pet Details
+                </Label>
+                <Textarea
+                  rows={5}
+                  id="petDetails"
+                  className="w-full  bg-primary-light-gray"
+                  {...register("petDetails")}
+                />
+              </div>
+            </div>
           </div>
 
           {/* ---- Submit Button ---- */}
-
           <div className="flex justify-center gap-x-5 flex-wrap gap-y-2">
             <Button
               type="reset"

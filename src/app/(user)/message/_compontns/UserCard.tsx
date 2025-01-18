@@ -11,7 +11,6 @@ const UserCard = ({
   setSelectedUser: any;
   selectedUserId: string;
 }) => {
-  console.log(user);
   return (
     <div
       className={cn(

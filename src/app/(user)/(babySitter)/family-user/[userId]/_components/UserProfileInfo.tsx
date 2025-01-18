@@ -50,7 +50,7 @@ const UserProfileInfo = ({ data }: { data: TFamilyUserData }) => {
             </h3>
           </div>
           <hr />
-          <div className="px-8 flex justify-between gap-x-2 items-center">
+          {/* <div className="px-8 flex justify-between gap-x-2 items-center">
             <div className=" flex gap-x-4">
               <Image src={icon3} alt="icon"></Image>
               <p className="text-[#707071] font-medium">Number of pets</p>
@@ -59,16 +59,14 @@ const UserProfileInfo = ({ data }: { data: TFamilyUserData }) => {
               {data?.familyUser?.petCount}
             </h3>
           </div>
-          <hr />
+          <hr /> */}
           <div className="md:px-8 px-4 flex flex-wrap md:flex-nowrap xl:flex-nowrap  justify-between  gap-x-10">
             <div className=" flex gap-x-2 ">
               <Image src={icon4} alt="icon" className="h-fit"></Image>
               <p className="text-[#707071] font-medium">Location</p>
             </div>
             <h3 className="font-medium text-sm text-primary-blue">
-              {data?.houseNo && data?.houseNo + " No. House,"} {data?.area},{" "}
-              {data?.city}, {data?.state}{" "}
-              {data?.zipCode && ", " + data?.zipCode}
+              {data?.area}, {data?.zipCode}, {data?.city}
             </h3>
           </div>
           <hr />

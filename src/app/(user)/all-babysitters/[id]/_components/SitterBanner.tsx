@@ -75,7 +75,7 @@ const SitterBanner = ({ data }: { data: TBabysitterUser }) => {
           {data?.babysitter?.firstName} {data?.babysitter?.lastName}
         </h1>
         <p className="lg:text-lg text-center">
-          Babysitting job in {data?.city}, {data?.state}
+          Babysitting job in {data?.city}
         </p>
         <div className="flex gap-x-2 items-center">
           <Rating rating={data?.babysitter?.avgRating}></Rating>
@@ -90,7 +90,7 @@ const SitterBanner = ({ data }: { data: TBabysitterUser }) => {
 
       {/* Favorite Button */}
 
-      {user?.role === "FAMILY_USER" && status === "completed" && (
+      {user?.role === "FAMILY_USER" && (
         <div className="absolute top-4 right-4">
           <div className="flex justify-center items-center gap-x-2">
             <div

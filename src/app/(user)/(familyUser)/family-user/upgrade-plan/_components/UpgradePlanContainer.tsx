@@ -10,7 +10,6 @@ const UpgradePlanContainer = () => {
   const [updateSubscription, { isLoading }] = useUpdateSubscriptionMutation();
   const router = useRouter();
   const id = useSearchParams()?.get("id");
-  console.log(id);
 
   const handleUpgradePlan = async (plan: string) => {
     try {

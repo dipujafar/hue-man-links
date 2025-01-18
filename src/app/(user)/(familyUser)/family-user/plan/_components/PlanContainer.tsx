@@ -10,7 +10,6 @@ import moment from "moment";
 
 const PlanContainer = () => {
   const { data: subscription, isLoading } = useGetSubscriptionQuery(undefined);
-  console.log(subscription);
 
   return isLoading ? (
     <div className="space-y-3">
