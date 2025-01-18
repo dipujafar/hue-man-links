@@ -39,11 +39,11 @@ const faqs: FAQItem[] = [
     answer:
       "To avoid cancellation fees, please cancel at least 48 hours before the scheduled session. If you cancel later than that, a fee may be charged since the linker has set aside time specifically for your family.",
   },
-  {
-    question: " What happens after I request a link?",
-    answer:
-      "Once you request a link, they will be notified via email. The linker has 48 hours to accept or decline the booking. If they accept, you’ll receive a confirmation email. If they’re unavailable, we’ll either find another linker for you or inform you so you can rebook, depending on your preference.",
-  },
+  // {
+  //   question: " What happens after I request a link?",
+  //   answer:
+  //     "Once you request a link, they will be notified via email. The linker has 48 hours to accept or decline the booking. If they accept, you’ll receive a confirmation email. If they’re unavailable, we’ll either find another linker for you or inform you so you can rebook, depending on your preference.",
+  // },
 ];
 const Faqs = () => {
   const [openItems, setOpenItems] = useState<number[]>([]);
