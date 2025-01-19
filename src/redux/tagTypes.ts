@@ -10,6 +10,7 @@ export const tagTypes = {
   ignoreSitter: "IgnoreSitter",
   user: "User",
   subscription: "Subscription",
+  notification: "Notification",
 };
 
 export const tagTypesList = [
@@ -24,4 +25,5 @@ export const tagTypesList = [
   tagTypes.ignoreSitter,
   tagTypes.user,
   tagTypes.subscription,
+  tagTypes.notification,
 ];

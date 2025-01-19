@@ -163,12 +163,13 @@ const BookRequestForm = () => {
                 country: "United States",
                 state: "Georgia",
                 city: "",
-                area: "",
+                area: "client cai na",
                 house: "12",
                 zipCode: "",
               }}
               register={register}
               setValue={setValue}
+              hiddenArea={true}
             />
           </div>
 

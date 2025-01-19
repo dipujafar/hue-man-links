@@ -8,6 +8,7 @@ import useFcmToken from "@/hooks/useFcmToken";
 import { useGetNotificationsQuery } from "@/redux/api/notificationApi";
 import {
   useGetUserProfileQuery,
+  useUpdateFamilyProfileMutation,
   useUpdateSitterProfileMutation,
 } from "@/redux/api/userProfileApi";
 import { useAppSelector } from "@/redux/hooks";
@@ -16,9 +17,9 @@ import CustomToast from "@/components/shared/CustomToast";
 const FirebaseProvider = ({ children }: { children: React.ReactNode }) => {
   const userData: any = useAppSelector((state) => state.auth.user);
 
-  const { refetch } = useGetNotificationsQuery(undefined, { skip: !userData });
+  const { refetch } = useGetNotificationsQuery(undefined);
   const [updateProfileSitter] = useUpdateSitterProfileMutation();
-  const [updateProfileFamilyUser] = useUpdateSitterProfileMutation();
+  const [updateProfileFamilyUser] = useUpdateFamilyProfileMutation();
   const { data, isLoading } = useGetUserProfileQuery(undefined, {
     skip: !userData,
   });

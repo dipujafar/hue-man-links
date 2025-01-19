@@ -11,7 +11,7 @@ type TCustomToastProps = {
 const CustomToast = ({
   title,
   body,
-  url = "/notification",
+  url = "/notifications",
 }: TCustomToastProps) => {
   return (
     <Link href={url} className="block">

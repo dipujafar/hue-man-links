@@ -127,7 +127,7 @@ const AboutFamily = ({ data }: { data: TSingleJobPost }) => {
               <p className="text-[#707071] font-medium">Location</p>
             </div>
             <h3 className="font-medium text-sm text-primary-blue">
-              {data?.area}, {data?.zipCode}, {data?.city}
+              {data?.zipCode}, {data?.city}
             </h3>
           </div>
           <hr />

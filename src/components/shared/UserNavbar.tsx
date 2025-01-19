@@ -40,7 +40,7 @@ const sitterNavLinks = [
 
 const userNavLinks = [
   {
-    label: "Job Post",
+    label: "Create Job Post",
     value: "book-babysitter-request",
   },
   {
@@ -60,9 +60,15 @@ const UserNavbar = ({ className }: { className?: string }) => {
   const { data: userProfile } = useGetUserProfileQuery(undefined, {
     skip: !user?.id,
   });
-  const { data } = useGetNotificationsQuery(undefined, {
+  const { data: notificationData } = useGetNotificationsQuery(undefined, {
     skip: !user?.id,
   });
+
+  const unReadNotification = notificationData?.data?.data?.filter(
+    (item: any) => item.isRead === false
+  );
+
+  console.log(unReadNotification);
 
   return (
     <div className={cn(className)}>
@@ -120,9 +126,22 @@ const UserNavbar = ({ className }: { className?: string }) => {
 
         {/* nav icons  and user profile*/}
         <div className="hidden lg:flex items-center justify-center gap-x-5">
-          <div>
-            <Bell />
-          </div>
+          <Link href={"/notifications"}>
+            <div className="relative">
+              <Bell />
+              {unReadNotification?.length > 0 && (
+                <div className="absolute -top-2 right-0 size-4 bg-primary-orange rounded-full text-[10px]">
+                  <div className="flex items-center justify-center text-white">
+                    {unReadNotification?.length <= 10 ? (
+                      unReadNotification?.length
+                    ) : (
+                      <div className="size-2 rounded-full"></div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </Link>
           {user?.role === "FAMILY_USER" && (
             <Link href={"/favorite-babysitter"}>
               <Heart
@@ -182,6 +201,10 @@ const UserNavbar = ({ className }: { className?: string }) => {
                     userProfile?.data?.familyUser?.personName
                       ?.split(" ")[1]
                       .slice(0, 1)}
+                {userProfile?.data?.babysitter?.firstName &&
+                  userProfile?.data?.babysitter?.firstName
+                    ?.split(" ")[0]
+                    .slice(0, 1)}
 
                 {!userProfile?.data?.familyUser?.personName && (
                   <Image
@@ -223,27 +246,48 @@ const UserNavbar = ({ className }: { className?: string }) => {
                 <div className="flex flex-1 flex-col items-center justify-center gap-y-5">
                   <nav>
                     <div className="flex flex-col gap-y-4">
-                      <ul className="flex flex-col gap-y-4 pl-4 ">
-                        {sitterNavLinks?.map((item, idx) => (
-                          <li
-                            key={idx}
-                            className={cn(
-                              "text-lg font-medium text-primary-orange hover:text-primary-blue duration-300",
-                              currentPathName === item.value
-                                ? "text-primary-blue"
-                                : ""
-                            )}
-                          >
-                            <Link href={`/${item.value}`}>{item.label}</Link>
-                          </li>
-                        ))}
-                      </ul>
+                      {user?.role === "FAMILY_USER" ? (
+                        <ul className="flex flex-col gap-y-4 md:pl-4 pl-2 ">
+                          {userNavLinks?.map((item, idx) => (
+                            <li
+                              key={idx}
+                              className={cn(
+                                "text-lg font-medium text-primary-orange hover:text-primary-blue duration-300",
+                                currentPathName === item.value
+                                  ? "text-primary-blue"
+                                  : ""
+                              )}
+                            >
+                              <Link href={`/${item.value}`}>{item.label}</Link>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <ul className="flex flex-col gap-y-4  md:pl-4 pl-2 ">
+                          {sitterNavLinks?.map((item, idx) => (
+                            <li
+                              key={idx}
+                              className={cn(
+                                "text-lg font-medium text-primary-orange hover:text-primary-blue duration-300",
+                                currentPathName === item.value
+                                  ? "text-primary-blue"
+                                  : ""
+                              )}
+                            >
+                              <Link href={`/${item.value}`}>{item.label}</Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                   </nav>
                 </div>
 
                 {/* nav icons  and user profile*/}
-                <div className=" flex items-center justify-center gap-x-5">
+                <div className="flex items-center justify-center gap-x-3 md:gap-x-5">
+                  <Link href={"/notifications"}>
+                    <Bell />
+                  </Link>
                   {user?.role === "FAMILY_USER" && (
                     <Link href={"/favorite-babysitter"}>
                       <Heart
@@ -260,7 +304,6 @@ const UserNavbar = ({ className }: { className?: string }) => {
                       />
                     </Link>
                   )}
-
                   <Link
                     href={
                       user?.role === "FAMILY_USER"
@@ -300,6 +343,10 @@ const UserNavbar = ({ className }: { className?: string }) => {
                             userProfile?.data?.familyUser?.personName
                               ?.split(" ")[1]
                               .slice(0, 1)}
+                        {userProfile?.data?.babysitter?.firstName &&
+                          userProfile?.data?.babysitter?.firstName
+                            ?.split(" ")[0]
+                            .slice(0, 1)}
 
                         {!userProfile?.data?.familyUser?.personName && (
                           <Image

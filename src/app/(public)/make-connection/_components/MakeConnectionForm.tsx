@@ -739,19 +739,6 @@ const MakeConnectionForm = () => {
               )}
             </div>
           </div>
-
-          {/* hear us */}
-          <div className="grid w-full  items-center gap-1.5">
-            <Label className="font-semibold text-lg text-primary-black/80">
-              How did you hear about us?
-            </Label>
-            <Input
-              type="text"
-              id="hearFrom"
-              className="w-full py-5 bg-primary-light-gray"
-              {...register("hearFrom")}
-            />
-          </div>
         </div>
 
         <div>
@@ -821,6 +808,19 @@ const MakeConnectionForm = () => {
                   ))}
                 </RadioGroup>
               )}
+            />
+          </div>
+
+          {/* hear us */}
+          <div className="grid w-full  items-center gap-1.5 mt-3">
+            <Label className="font-semibold text-lg text-primary-black/80">
+              How did you hear about us?
+            </Label>
+            <Textarea
+              rows={2}
+              id="hearFrom"
+              className="w-full py-5 bg-primary-light-gray"
+              {...register("hearFrom")}
             />
           </div>
         </div>
@@ -931,6 +931,15 @@ const MakeConnectionForm = () => {
             Create
           </Button>
         </div>
+
+        <p>
+          <span className="text-primary-orange">***</span>
+          <span className="font-semibold"> Disclaimer: </span> The information
+          provided during the sign-up process is solely for registration
+          purposes. It will not be used for job postings or shared publicly in
+          any way. No identifiable personal information will be posted or
+          disclosed.
+        </p>
       </form>
       <VerifyOtpModal
         open={showVerify}

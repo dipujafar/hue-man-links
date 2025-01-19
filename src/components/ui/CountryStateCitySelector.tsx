@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/select";
 import { Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export default function CountryStateCitySelector({
   control,
@@ -15,6 +16,7 @@ export default function CountryStateCitySelector({
   register,
   setValue,
   errors,
+  hiddenArea = false,
 }: any) {
   const [allData, setAllData] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState<any>(
@@ -74,7 +76,12 @@ export default function CountryStateCitySelector({
 
   return (
     <div className="space-y-3">
-      <div className="grid w-full grid-cols-2 gap-x-3 gap-y-3 lg:grid-cols-3">
+      <div
+        className={cn(
+          "grid w-full grid-cols-2 gap-x-3 gap-y-3 lg:grid-cols-3",
+          hiddenArea && "lg:grid-cols-2"
+        )}
+      >
         {/* Country Selector */}
         <div className="hidden">
           <Controller
@@ -205,7 +212,7 @@ export default function CountryStateCitySelector({
         </div>
 
         {/* area */}
-        <div>
+        <div className={cn(hiddenArea && "hidden")}>
           <Input
             type="text"
             defaultValue={userAddress?.area}
