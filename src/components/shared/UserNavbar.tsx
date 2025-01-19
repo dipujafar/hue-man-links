@@ -68,8 +68,6 @@ const UserNavbar = ({ className }: { className?: string }) => {
     (item: any) => item.isRead === false
   );
 
-  console.log(unReadNotification);
-
   return (
     <div className={cn(className)}>
       <nav className="flex items-center justify-between gap-x-5  2xl:gap-x-36 py-4 lg:py-6">
@@ -286,7 +284,20 @@ const UserNavbar = ({ className }: { className?: string }) => {
                 {/* nav icons  and user profile*/}
                 <div className="flex items-center justify-center gap-x-3 md:gap-x-5">
                   <Link href={"/notifications"}>
-                    <Bell />
+                    <div className="relative">
+                      <Bell />
+                      {unReadNotification?.length > 0 && (
+                        <div className="absolute -top-2 right-0 size-4 bg-primary-orange rounded-full text-[10px]">
+                          <div className="flex items-center justify-center text-white">
+                            {unReadNotification?.length <= 10 ? (
+                              unReadNotification?.length
+                            ) : (
+                              <div className="size-2 rounded-full"></div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </Link>
                   {user?.role === "FAMILY_USER" && (
                     <Link href={"/favorite-babysitter"}>
