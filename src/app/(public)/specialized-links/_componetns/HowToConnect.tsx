@@ -1,6 +1,6 @@
 import Container from "@/components/shared/Container";
 import Image from "next/image";
-import steps from "../../../../assets/Images/specialized-links/steps.png";
+import steps from "@/assets/Images/specialized-links/steps.png";
 
 const HowToConnect = () => {
   return (

@@ -3,12 +3,12 @@ import { Input } from "@/components/ui/input";
 import ReceiverMsgCard from "./ReceiverMsgCard";
 import UserCard from "./UserCard";
 import Image from "next/image";
-import { MoveLeft, PlusCircleIcon, SendHorizontal, X } from "lucide-react";
+import { MessageCircleMore, MoveLeft, SendHorizontal, X } from "lucide-react";
 import OwnerMsgCard from "./OwnerMsgCard";
 import { Button } from "@/components/ui/button";
 import { useSocket } from "@/context/SocketContextApi";
 import { useAppSelector } from "@/redux/hooks";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PhotoUpload } from "@/components/shared/upload-photo";
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
@@ -16,7 +16,7 @@ import { TMessage } from "@/types";
 import CustomAvatar from "@/components/shared/CustomAvatar";
 import useMultipleFileUpload from "@/hooks/useMultipleFileUpload";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useGetSingleUserProfileQuery } from "@/redux/api/userProfileApi";
 
 export interface UploadedImage {
@@ -377,7 +377,8 @@ const MessageContainer = () => {
           {!selectedUserId ? (
             <div className="flex h-[80vh] items-center justify-center">
               <div className="flex items-center gap-x-3 font-dm-sans text-2xl">
-                <PlusCircleIcon size={28} /> Start a conversation
+                <MessageCircleMore size={28} /> Select your partner to start
+                conversations
               </div>
             </div>
           ) : (

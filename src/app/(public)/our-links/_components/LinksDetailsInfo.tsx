@@ -56,7 +56,7 @@ const LinksDetailsInfo = () => {
             <ul>
               <li>- Keep your availability updated at all times</li>
               <li>- Respond to sit requests within 24 hours</li>
-              <li>- Apply to sits within 24 hours of creating profile.</li>
+              <li>- Apply to sits within 24 hours of creating profile</li>
               <li>
                 - Send a greeting text to families 1-2 days before your
                 scheduled sit
@@ -64,7 +64,7 @@ const LinksDetailsInfo = () => {
               <li>
                 {" "}
                 - Arrive early or on time, fully engaged and present during your
-                connection (no cell phones).
+                connection (no cell phones)
               </li>
             </ul>
           </div>
