@@ -1,3 +1,4 @@
+"use client";
 import { firebaseApp } from "@/lib/firebase/firebase";
 import { getMessaging, getToken } from "firebase/messaging";
 import { useEffect, useState } from "react";

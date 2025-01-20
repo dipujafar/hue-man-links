@@ -39,8 +39,8 @@ const MessageContainer = () => {
   const [selectedUserId, setSelectedUserId] = useState<any>(null);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const chatBoxRef = useRef(null);
-  const [typing, setTyping] = useState([]);
-  const [search, setSearch] = useState("");
+  // const [typing, setTyping] = useState([]);
+  // const [search, setSearch] = useState("");
   const { socket } = useSocket();
   const user: any = useAppSelector((state) => state.auth.user);
   const [upload] = useMultipleFileUpload();
@@ -153,7 +153,7 @@ const MessageContainer = () => {
   // =================================== submit message ==============================================
   const handleSendMessage = async (data: any) => {
     if (images?.length > 0) {
-      const files = images.map((image) => image.file);
+      const files = images?.map((image) => image.file);
       const res = await upload(files);
       const uploadFiles = res?.data?.map((file: any) => file?.url);
 
@@ -244,47 +244,47 @@ const MessageContainer = () => {
   }, [socket, user?.id, messages]);
 
   // ===================================== listen for typing users ==============================================
-  useEffect(() => {
-    if (socket && user?.id) {
-      socket.on(`typing::${chatId}`, (res) => {
-        setTyping(res?.data);
-      });
-    }
+  // useEffect(() => {
+  //   if (socket && user?.id) {
+  //     socket.on(`typing::${chatId}`, (res) => {
+  //       setTyping(res?.data);
+  //     });
+  //   }
 
-    return () => {
-      if (socket && user?.id) {
-        socket.off(`typing::${chatId}`, (res) => {
-          setTyping(res?.data);
-        });
-      }
-    };
-  }, [socket, user?.id]);
-
-  // ==================================== typing emit ==============================================
-  useEffect(() => {
-    if (socket && user?.id) {
-      socket.emit("typing", { chatId: chatId }, (res: any) => {
-        // nothing do
-      });
-    }
-  }, [socket, user?.id]);
+  //   return () => {
+  //     if (socket && user?.id) {
+  //       socket.off(`typing::${chatId}`, (res) => {
+  //         setTyping(res?.data);
+  //       });
+  //     }
+  //   };
+  // }, [socket, user?.id]);
 
   // ==================================== typing emit ==============================================
-  const handleInputFocus = () => {
-    if (socket && user?.id) {
-      socket.emit("typing", { chatId: chatId }, (res: any) => {
-        // nothing do
-      });
-    }
-  };
+  // useEffect(() => {
+  //   if (socket && user?.id) {
+  //     socket.emit("typing", { chatId: chatId }, (res: any) => {
+  //       // nothing do
+  //     });
+  //   }
+  // }, [socket, user?.id]);
+
+  // ==================================== typing emit ==============================================
+  // const handleInputFocus = () => {
+  //   if (socket && user?.id) {
+  //     socket.emit("typing", { chatId: chatId }, (res: any) => {
+  //       // nothing do
+  //     });
+  //   }
+  // };
   // ==================================== stop typing emit ==============================================
-  const handleInputBlur = () => {
-    if (socket && user?.id) {
-      socket.emit("stop-typing", { chatId: chatId }, (res: any) => {
-        // nothing do
-      });
-    }
-  };
+  // const handleInputBlur = () => {
+  //   if (socket && user?.id) {
+  //     socket.emit("stop-typing", { chatId: chatId }, (res: any) => {
+  //       // nothing do
+  //     });
+  //   }
+  // };
 
   // ========================== set selected user profile form outside user ============================
   useEffect(() => {
@@ -585,8 +585,8 @@ const MessageContainer = () => {
                         {...register("message", {
                           required: images.length > 0 ? false : true,
                         })}
-                        onFocus={handleInputFocus}
-                        onBlur={handleInputBlur}
+                        // onFocus={handleInputFocus}
+                        // onBlur={handleInputBlur}
                       />
                       {/* 
                       <AutosizeTextarea
