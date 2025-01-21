@@ -30,5 +30,6 @@ export const config = {
     "/book-sitter",
     "/book-request",
     "/all-job-posts",
+    "/notifications",
   ],
 };
