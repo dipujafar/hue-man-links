@@ -377,7 +377,7 @@ const MessageContainer = () => {
           {!selectedUserId ? (
             <div className="flex h-[80vh] items-center justify-center">
               <div className="flex items-center gap-x-3 font-dm-sans text-2xl">
-                <MessageCircleMore size={28} /> Select user to start
+                <MessageCircleMore size={28} /> Select your partner to start a
                 conversation
               </div>
             </div>
