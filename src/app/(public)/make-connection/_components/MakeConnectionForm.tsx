@@ -386,7 +386,7 @@ const MakeConnectionForm = () => {
           </div>
 
           {/* ---- upload image ---- */}
-          <div className="pt-6  ">
+          <div className="pt-6">
             <div className="relative">
               <Image
                 src={imageUrl || dummyProfile}
@@ -395,7 +395,7 @@ const MakeConnectionForm = () => {
                 height={700}
                 className="size-40 rounded-full border-2 border-primary-orange"
               ></Image>
-              <div className="absolute bottom-0 right-2 z-[9999]     flex flex-col items-center gap-4 w-fit">
+              <div className="absolute bottom-0 right-2 flex flex-col items-center gap-4 w-fit">
                 <Button
                   variant="outline"
                   type="button"

@@ -269,7 +269,7 @@ const BabySitterForm = () => {
                   height={700}
                   className="size-40 rounded-full border-2 border-primary-orange"
                 ></Image>
-                <div className="absolute bottom-0 right-2 z-[9999]     flex flex-col items-center gap-4 w-fit">
+                <div className="absolute bottom-0 right-2 flex flex-col items-center gap-4 w-fit">
                   <Button
                     variant="outline"
                     type="button"
@@ -289,7 +289,7 @@ const BabySitterForm = () => {
                       <ImageIcon
                         color="#F26D6D"
                         size={32}
-                        className=" border-none"
+                        className="border-none"
                       />
                     </label>
                   </Button>
