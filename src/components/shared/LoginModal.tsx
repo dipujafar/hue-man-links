@@ -73,7 +73,7 @@ const LoginModal = ({
       }
     } catch (err: TError | any) {
       const error = err?.data?.message?.split(",");
-      if (error[0] === "before login you have get a subscription") {
+      if (error?.[0] === "before login you have get a subscription") {
         setRole(error[1]);
         setEmail(data.email);
         setMessage("Before login you have get a subscription.");
@@ -82,7 +82,7 @@ const LoginModal = ({
         return;
       }
 
-      if (error[0] === "Your subscription is expired") {
+      if (error?.[0] === "Your subscription is expired") {
         setRole(error[2]);
         setEmail(data.email);
         setMessage("Your subscription is expired, please renew");

@@ -94,7 +94,7 @@ const MakeConnectionForm = () => {
       toast.error("Please upload a profile image.");
       return;
     }
-    toast.loading("processing...", { id: "createUser" });
+    toast.loading("processing...", { id: "createUser", duration: 10000 });
     // @ts-ignore
     const fileRes = await upload(imageFile as File);
 
@@ -748,6 +748,12 @@ const MakeConnectionForm = () => {
               Which membership plan do you want?
             </h1>
 
+            <p className="text-purple-900">
+              <span className="text-primary-orange">***</span>
+              Enjoy a 30-day free trial on all subscription plans! After 30
+              days, subscription fee will apply to continue your access.
+            </p>
+
             <Controller
               name="membershipPlan"
               control={control}
@@ -817,9 +823,9 @@ const MakeConnectionForm = () => {
               How did you hear about us?
             </Label>
             <Textarea
-              rows={2}
+              rows={3}
               id="hearFrom"
-              className="w-full py-5 bg-primary-light-gray"
+              className="w-full  bg-primary-light-gray"
               {...register("hearFrom")}
             />
           </div>

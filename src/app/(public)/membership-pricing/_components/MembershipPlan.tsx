@@ -1,9 +1,16 @@
 const MembershipPlan = () => {
   return (
     <div className="lg:space-y-16 space-y-8">
-      <h1 className="text-4xl text-primary-orange text-center font-semibold">
-        Membership Plan
-      </h1>
+      <div>
+        <h1 className="text-4xl text-primary-orange text-center font-semibold mb-2">
+          Membership Plan
+        </h1>
+        <p className="text-purple-900">
+          <span className="text-primary-orange">***</span>
+          Enjoy a 30-day free trial on all subscription plans! After 30 days,
+          subscription fee will apply to continue your access.
+        </p>
+      </div>
       <div className="space-y-12 text-xl">
         <p>
           Hue-man Links Incorporated is a monthly membership sitting agency that

@@ -82,7 +82,7 @@ const AboutFamily = ({ data }: { data: TSingleJobPost }) => {
               {isApplyJobLoading && (
                 <LoadingSpain color="#fff" className="mr-2"></LoadingSpain>
               )}
-              Apply Job
+              Apply for a Job
             </Button>
           ))}
 
