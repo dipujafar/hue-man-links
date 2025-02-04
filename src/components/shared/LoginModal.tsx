@@ -23,6 +23,8 @@ import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/authSlice";
 import LoadingSpain from "../loaders/LoadingSpain";
 import MakeSubscriptionModal from "./MakeSubscriptionModal";
+import logo from "@/assets/Images/logo.png";
+import Image from "next/image";
 
 type TData = {
   email: string;
@@ -111,9 +113,16 @@ const LoginModal = ({
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="max-h-[90vh] overflow-auto">
           <DialogHeader>
             <DialogTitle className="text-center text-primary-gray/70 text-2xl">
+              <div>
+                <Image
+                  src={logo}
+                  alt="logo"
+                  className="max-w-[200px] mx-auto"
+                ></Image>
+              </div>
               Login to Account
             </DialogTitle>
             <DialogDescription className="text-center">

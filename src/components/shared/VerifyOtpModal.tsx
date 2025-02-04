@@ -23,6 +23,8 @@ import { useCreateSubscriptionMutation } from "@/redux/api/subscriptionApi";
 import { useRouter } from "next/navigation";
 import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import logo from "@/assets/Images/logo.png";
+import Image from "next/image";
 
 const VerifyOtpModal = ({
   open,
@@ -87,6 +89,13 @@ const VerifyOtpModal = ({
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="text-center text-primary-gray/70 text-2xl">
+              <div>
+                <Image
+                  src={logo}
+                  alt="logo"
+                  className="max-w-[200px] mx-auto"
+                ></Image>
+              </div>
               Verify Email
             </DialogTitle>
             <DialogDescription className="text-center">

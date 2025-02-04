@@ -15,6 +15,8 @@ import { useForgetPasswordMutation } from "@/redux/api/authApi";
 import { Error_Modal } from "../modals/modals";
 import { TError } from "@/types";
 import LoadingSpain from "../loaders/LoadingSpain";
+import logo from "@/assets/Images/logo.png";
+import Image from "next/image";
 
 type TData = {
   email: string;
@@ -56,6 +58,13 @@ const ForgetPasswordModal = ({
         <DialogContent className="">
           <DialogHeader>
             <DialogTitle className="text-center text-primary-gray/70 text-2xl">
+              <div>
+                <Image
+                  src={logo}
+                  alt="logo"
+                  className="max-w-[200px] mx-auto"
+                ></Image>
+              </div>
               Enter your email
             </DialogTitle>
           </DialogHeader>

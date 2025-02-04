@@ -20,6 +20,8 @@ import { setUser } from "@/redux/features/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import LoadingSpain from "../loaders/LoadingSpain";
+import logo from "@/assets/Images/logo.png";
+import Image from "next/image";
 
 const SetNewPasswordModal = ({
   open,
@@ -73,6 +75,13 @@ const SetNewPasswordModal = ({
         <DialogContent className="">
           <DialogHeader>
             <DialogTitle className="text-center text-primary-gray/70 text-2xl">
+              <div>
+                <Image
+                  src={logo}
+                  alt="logo"
+                  className="max-w-[200px] mx-auto"
+                ></Image>
+              </div>
               Set a new password
             </DialogTitle>
             <DialogDescription className="text-center max-w-sm mx-auto">
