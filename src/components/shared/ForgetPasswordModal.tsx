@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dispatch, SetStateAction, useState } from "react";
-import VerifyOtpModal from "./VerifyOtpModal";
+// import VerifyOtpModal from "./VerifyOtpModal";
 import { useForm } from "react-hook-form";
 import { useForgetPasswordMutation } from "@/redux/api/authApi";
 import { Error_Modal } from "../modals/modals";
@@ -17,6 +17,7 @@ import { TError } from "@/types";
 import LoadingSpain from "../loaders/LoadingSpain";
 import logo from "@/assets/Images/logo.png";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type TData = {
   email: string;
@@ -29,9 +30,10 @@ const ForgetPasswordModal = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [showVerifyOtpModal, setShowVerifyOtpModal] = useState(false);
+  // const [showVerifyOtpModal, setShowVerifyOtpModal] = useState(false);
   const [forgetPassword, { isLoading }] = useForgetPasswordMutation();
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
+  const router = useRouter();
 
   const {
     register,
@@ -45,8 +47,9 @@ const ForgetPasswordModal = ({
       if (res?.data?.token) {
         sessionStorage.setItem("token", res?.data?.token);
         setOpen(false);
-        setShowVerifyOtpModal(true);
-        setEmail(data.email);
+        // setShowVerifyOtpModal(true);
+        // setEmail(data.email);
+        router.push(`/verify-otp?email=${data.email}`);
       }
     } catch (err: TError | any) {
       Error_Modal({ title: err?.data?.message });
@@ -101,11 +104,11 @@ const ForgetPasswordModal = ({
           </form>
         </DialogContent>
       </Dialog>
-      <VerifyOtpModal
+      {/* <VerifyOtpModal
         open={showVerifyOtpModal}
         setOpen={setShowVerifyOtpModal}
         email={email}
-      ></VerifyOtpModal>
+      ></VerifyOtpModal> */}
     </>
   );
 };

@@ -21,7 +21,6 @@ const Success = () => {
 
         <h1 className="text-5xl font-medium text-green-800">Successfully </h1>
         <div className="mt-3 space-x-2">
-          `
           <Link href={"/"}>
             <Button
               variant={"outline"}

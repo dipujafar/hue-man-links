@@ -46,8 +46,8 @@ const ConfirmBabySitterForm = () => {
   const [upload, isUploading] = useFileUpload();
   const [createSitter, { isLoading: isCreatingSitter }] =
     useCreateSitterMutation();
-  const [email, setEmail] = useState("");
-  const [showVerify, setShowVerify] = useState(false);
+  // const [email, setEmail] = useState("");
+  // const [showVerify, setShowVerify] = useState(false);
 
   const handleUploadResume = (event: React.ChangeEvent<HTMLInputElement>) => {
     setResumeFile(event.target.files?.[0] || null);
@@ -106,10 +106,11 @@ const ConfirmBabySitterForm = () => {
 
       if (res?.data?.token) {
         sessionStorage.setItem("signUpToken", res?.data?.token);
-        setEmail(previousData?.email);
-        setShowVerify(true);
+        // setEmail(previousData?.email);
+        // setShowVerify(true);
         sessionStorage.removeItem("sitterData");
         toast.dismiss();
+        router.push(`/verify-otp?email=${previousData?.email}`);
       }
     } catch (error: TError | any) {
       toast.dismiss();
@@ -577,11 +578,11 @@ const ConfirmBabySitterForm = () => {
           </div>
         </div>
       </form>
-      <VerifyOtpModal
+      {/* <VerifyOtpModal
         open={showVerify}
         setOpen={setShowVerify}
         email={email}
-      ></VerifyOtpModal>
+      ></VerifyOtpModal> */}
     </div>
   );
 };

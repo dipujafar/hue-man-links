@@ -20,7 +20,10 @@ const LinksDetailsInfo = () => {
             <ul>
               <li>- Retain 100% of your earnings</li>
               <li>- Set your own schedule</li>
-              <li>- BCBA candidates can accrue unrestricted hours</li>
+              <li>
+                - BCBA candidates can potentially accrue restricted hours:
+                Please note this is on a case-by-case basis.
+              </li>
             </ul>
           </div>
 

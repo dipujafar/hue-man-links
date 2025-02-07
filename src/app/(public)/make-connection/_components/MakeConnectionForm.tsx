@@ -17,7 +17,7 @@ import dummyProfile from "@/assets/Images/make-connect/dummyProfile.png";
 import { useCreateUserMutation } from "@/redux/api/createUserApi";
 import useFileUpload from "@/hooks/useFileUpload";
 import { toast } from "sonner";
-import VerifyOtpModal from "@/components/shared/VerifyOtpModal";
+// import VerifyOtpModal from "@/components/shared/VerifyOtpModal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingSpain from "@/components/loaders/LoadingSpain";
@@ -31,8 +31,8 @@ type Client = {
 };
 
 const MakeConnectionForm = () => {
-  const [showVerify, setShowVerify] = useState(false);
-  const [email, setEmail] = useState("");
+  // const [showVerify, setShowVerify] = useState(false);
+  // const [email, setEmail] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -125,11 +125,6 @@ const MakeConnectionForm = () => {
         lastName: data?.primaryParentLastName,
         mobileNo: data?.primaryParentPhoneNumber,
       },
-      secondaryCareGiver: {
-        firstName: data?.secondaryParentFirstName,
-        lastName: data?.secondaryParentLastName,
-        mobileNo: data?.secondaryParentPhoneNumber,
-      },
     };
 
     try {
@@ -137,10 +132,11 @@ const MakeConnectionForm = () => {
 
       if (res?.data?.token) {
         sessionStorage.setItem("signUpToken", res?.data?.token);
-        setEmail(data?.email);
-        setShowVerify(true);
+        // setEmail(data?.email);
+        // setShowVerify(true);
         setImageFile(null);
         setImageUrl(null);
+        router.push(`/verify-otp?email=${data?.email}`);
       }
       toast.dismiss("createUser");
     } catch (error: TError | any) {
@@ -309,12 +305,12 @@ const MakeConnectionForm = () => {
               </div>
 
               {/*  --------- Secondary Caregiver --------*/}
-              <div className="space-y-3 flex-1">
-                <h1 className="text-xl font-semibold text-primary-blue ">
+              <div className="space-y-3 ">
+                {/* <h1 className="text-xl font-semibold text-primary-blue ">
                   Secondary Caregiver
-                </h1>
+                </h1> */}
                 {/* `---- input  First Name ---- */}
-                <div className="grid w-full  items-center gap-1.5">
+                {/* <div className="grid w-full  items-center gap-1.5">
                   <Label className="font-semibold text-lg text-primary-black/80">
                     First Name
                   </Label>
@@ -332,10 +328,10 @@ const MakeConnectionForm = () => {
                       {errors.secondaryParentFirstName.message as string}
                     </p>
                   )}
-                </div>
+                </div> */}
 
                 {/* `---- input Last Name ---- */}
-                <div className="grid w-full  items-center gap-1.5">
+                {/* <div className="grid w-full  items-center gap-1.5">
                   <Label className="font-semibold text-lg text-primary-black/80">
                     Last Name
                   </Label>
@@ -353,10 +349,10 @@ const MakeConnectionForm = () => {
                       {errors.secondaryParentLastName.message as string}
                     </p>
                   )}
-                </div>
+                </div> */}
 
                 {/* user phone number */}
-                <div className="mb-2 space-y-1">
+                {/* <div className="mb-2 space-y-1">
                   <Label className="font-semibold text-lg text-primary-black/80">
                     Mobile Number
                   </Label>
@@ -380,7 +376,7 @@ const MakeConnectionForm = () => {
                       {errors.secondaryParentPhoneNumber.message as string}
                     </p>
                   )}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -947,11 +943,11 @@ const MakeConnectionForm = () => {
           disclosed.
         </p>
       </form>
-      <VerifyOtpModal
+      {/* <VerifyOtpModal
         open={showVerify}
         setOpen={setShowVerify}
         email={email}
-      ></VerifyOtpModal>
+      ></VerifyOtpModal> */}
     </div>
   );
 };
