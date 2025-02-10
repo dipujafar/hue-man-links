@@ -68,7 +68,7 @@ const BookSitterContainer = () => {
             value="reject"
             className="data-[state=active]:bg-primary-orange data-[state=active]:text-primary-white text-primary-black"
           >
-            Reject
+            Rejected
           </TabsTrigger>
         </TabsList>
 

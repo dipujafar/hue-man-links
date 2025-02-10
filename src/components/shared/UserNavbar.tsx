@@ -30,11 +30,11 @@ const sitterNavLinks = [
   },
   {
     label: "About",
-    value: "about-us",
+    value: "user-about-us",
   },
   {
     label: "Contact Us",
-    value: "connect-us",
+    value: "user-contact",
   },
 ];
 
@@ -45,11 +45,11 @@ const userNavLinks = [
   },
   {
     label: "About",
-    value: "about-us",
+    value: "user-about-us",
   },
   {
     label: "Contact Us",
-    value: "connect-us",
+    value: "user-contact",
   },
 ];
 
@@ -340,7 +340,13 @@ const UserNavbar = ({ className }: { className?: string }) => {
                       )}
                     />
                   </Link>
-                  <Link href={"/family-user/profile-details"}>
+                  <Link
+                    href={
+                      user?.role === "FAMILY_USER"
+                        ? "/family-user/profile-details"
+                        : "/baby-sitter/profile-details"
+                    }
+                  >
                     <Avatar className="size-12">
                       <AvatarImage
                         src={userProfile?.data?.profilePicture}

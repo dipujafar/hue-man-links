@@ -48,7 +48,7 @@ const BookRequestContainer = () => {
             value="request"
             className="data-[state=active]:bg-primary-orange data-[state=active]:text-primary-white text-primary-black"
           >
-            Request
+            Approved
           </TabsTrigger>
           <TabsTrigger
             value="pending"
@@ -66,7 +66,7 @@ const BookRequestContainer = () => {
             value="reject"
             className="data-[state=active]:bg-primary-orange data-[state=active]:text-primary-white text-primary-black"
           >
-            Reject
+            Rejected
           </TabsTrigger>
         </TabsList>
 

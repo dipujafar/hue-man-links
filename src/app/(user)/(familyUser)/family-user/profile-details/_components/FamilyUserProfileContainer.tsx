@@ -445,7 +445,7 @@ const FamilyUserProfileContainer = () => {
                 height={700}
                 className="size-40 rounded-full border-2 border-primary-orange"
               ></Image>
-              <div className="absolute bottom-0 right-2 z-[9999]     flex flex-col items-center gap-4 w-fit">
+              <div className="absolute bottom-0 right-2 z-[9]     flex flex-col items-center gap-4 w-fit">
                 <Button
                   variant="outline"
                   type="button"

@@ -9,7 +9,7 @@ import CountryStateCitySelector from "@/components/ui/CountryStateCitySelector";
 import { DateTimeSelector } from "@/components/ui/TimeDate/selectTimeDate";
 import { useCreateJobMutation } from "@/redux/api/jobsApi";
 import { TError } from "@/types";
-import { Error_Modal, Success_model } from "@/components/modals/modals";
+import { Error_Modal } from "@/components/modals/modals";
 import LoadingSpain from "@/components/loaders/LoadingSpain";
 import { useState } from "react";
 import { MinusCircle, Plus } from "lucide-react";
@@ -18,7 +18,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
