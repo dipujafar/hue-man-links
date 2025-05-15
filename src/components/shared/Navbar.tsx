@@ -72,7 +72,7 @@ const Navbar = ({ className }: { className?: string }) => {
   return (
     <div className={cn(className)}>
       <Container>
-        <nav className="flex items-center justify-between gap-x-2  2xl:gap-x-2">
+        <nav className="flex items-center justify-between gap-x-2  2xl:gap-x-5">
           {/* logo image */}
           <div>
             <Link href={"/"}>
@@ -82,7 +82,7 @@ const Navbar = ({ className }: { className?: string }) => {
                 width={1200}
                 height={1200}
                 quality={100}
-                className="xl:h-full  w-auto   h-14 md:h-28  bg-gray-200  rounded-md max-h-44 max-w-[220px]"
+                className="xl:h-full  w-auto   h-14 md:h-28  bg-gray-200  rounded-md max-h-36 max-w-[190px]"
               />
             </Link>
           </div>
@@ -95,7 +95,7 @@ const Navbar = ({ className }: { className?: string }) => {
                 {/*------------------------ about drop down navLinks ---------------------------------- */}
                 <Menubar className="w-fit bg-transparent border-none shadow-none text-primary-white">
                   <MenubarMenu>
-                    <MenubarTrigger className="text-lg font-medium hover:bg-primary-orange duration-300 cursor-pointer">
+                    <MenubarTrigger className="text-lg font-medium hover:text-primary-orange focus:!bg-transparent duration-300 cursor-pointer">
                       About
                     </MenubarTrigger>
                     <MenubarContent>
@@ -103,7 +103,7 @@ const Navbar = ({ className }: { className?: string }) => {
                         <div key={idx}>
                           <MenubarItem
                             className={cn(
-                              "text-lg font-medium max-w-[180px]",
+                              "text-sm font-medium max-w-[220px] truncate hover:!bg-primary-orange/75 hover:!text-primary-white duration-300",
                               currentPathName === item?.value
                                 ? "bg-primary-orange text-primary-white"
                                 : ""
@@ -124,7 +124,7 @@ const Navbar = ({ className }: { className?: string }) => {
                     <li
                       key={idx}
                       className={cn(
-                        "text-lg font-medium hover:text-primary-orange duration-300",
+                        "text-lg font-medium hover:text-primary-orange duration-300 truncate",
                         currentPathName === item.value
                           ? "text-primary-orange"
                           : ""

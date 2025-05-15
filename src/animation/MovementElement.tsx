@@ -22,8 +22,8 @@ const MovementElement = ({
 }: TProsType) => {
   return (
     <motion.div
-      initial={{ opacity: 0, x: x, y: y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      initial={{ opacity: 0, x: x, y: y, filter: "blur(3px)" }}
+      whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
       exit={{ opacity: 0, x: x, y: y }}
       viewport={{ once: true }}
       transition={{ duration: duration, delay: delay, ease: "easeIn" }}

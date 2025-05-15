@@ -41,10 +41,18 @@ const TopBanner = ({
       ></Image>
       <div className="absolute inset-0 backdrop-blur-[2px]"></div>
       <Container className={cn("z-20 ", contentClass)}>
-        {title && <h3 className={cn(titleClass)}>{title}</h3>}
-        {BannerTitle && <h3 className={cn(titleClass)}>{BannerTitle}</h3>}
-        {btn && (
+        {title && (
           <MovementElement y={"40%"} duration={0.5}>
+            <h3 className={cn(titleClass)}>{title}</h3>{" "}
+          </MovementElement>
+        )}
+        {BannerTitle && (
+          <MovementElement y={"40%"} duration={0.5} delay={0.2}>
+            <h3 className={cn(titleClass)}>{BannerTitle}</h3>
+          </MovementElement>
+        )}
+        {btn && (
+          <MovementElement y={"40%"} duration={0.5} delay={0.4}>
             <Link href={btnLink ? btnLink : "#"}>
               <Button className={cn("md:mt-6 mt-2  ", btnClass)}>
                 {btn?.split(" ")?.slice(0, 4)?.join(" ")} <br />
