@@ -39,6 +39,11 @@ const faqs: FAQItem[] = [
     answer:
       "To avoid cancellation fees, please cancel at least 48 hours before the scheduled session. If you cancel later than that, a fee may be charged since the linker has set aside time specifically for your family.",
   },
+  {
+    question: "How old does my loved one need to be to receive sitting services?",
+    answer:
+      "We provide sitting services for individuals ages 2 to 21. Because every child and young adult has different needs, we consider the type and severity of behaviors to ensure we can provide a safe and supportive experience for everyone involved.",
+  },
   // {
   //   question: " What happens after I request a link?",
   //   answer:
