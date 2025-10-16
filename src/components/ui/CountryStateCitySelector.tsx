@@ -17,6 +17,7 @@ export default function CountryStateCitySelector({
   setValue,
   errors,
   hiddenArea = false,
+  onlyCity = false,
 }: any) {
   const [allData, setAllData] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState<any>(
@@ -166,7 +167,7 @@ export default function CountryStateCitySelector({
         </div>
 
         {/* City Selector */}
-        <div>
+        <div className={cn(onlyCity && "col-span-3")}>
           {selectedState ? (
             <Controller
               name="city"
@@ -212,32 +213,36 @@ export default function CountryStateCitySelector({
         </div>
 
         {/* area */}
-        <div className={cn(hiddenArea && "hidden")}>
-          <Input
-            type="text"
-            defaultValue={userAddress?.area}
-            placeholder="Type Address"
-            className="py-5 bg-primary-light-gray"
-            {...register("area", { required: "Area is required" })}
-          />
-          {errors?.area && (
-            <p className="text-red-600 text-sm">{errors.area.message}</p>
-          )}
-        </div>
+        {!onlyCity && (
+          <div className={cn(hiddenArea && "hidden")}>
+            <Input
+              type="text"
+              defaultValue={userAddress?.area}
+              placeholder="Type Address"
+              className="py-5 bg-primary-light-gray"
+              {...register("area", { required: "Area is required" })}
+            />
+            {errors?.area && (
+              <p className="text-red-600 text-sm">{errors.area.message}</p>
+            )}
+          </div>
+        )}
 
         {/* zip code */}
-        <div>
-          <Input
-            defaultValue={userAddress?.zipCode}
-            type="text"
-            placeholder="Type Zip Code"
-            className="py-5 bg-primary-light-gray"
-            {...register("zipCode")}
-          />
-          {errors?.zipCode && (
-            <p className="text-red-600 text-sm">{errors.zipCode.message}</p>
-          )}
-        </div>
+        {!onlyCity && (
+          <div>
+            <Input
+              defaultValue={userAddress?.zipCode}
+              type="text"
+              placeholder="Type Zip Code"
+              className="py-5 bg-primary-light-gray"
+              {...register("zipCode")}
+            />
+            {errors?.zipCode && (
+              <p className="text-red-600 text-sm">{errors.zipCode.message}</p>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Additional Fields */}

@@ -29,7 +29,7 @@ const MembershipPlan = () => {
         </div>
 
         <p>
-          Our links have 48 hours to respond to each sit request and you will be
+          Our links have 24 hours to respond to each sit request and you will be
           emailed a confirmation once they accept!
         </p>
 

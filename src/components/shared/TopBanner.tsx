@@ -6,6 +6,8 @@ import Navbar from "./Navbar";
 import MovementElement from "@/animation/MovementElement";
 import Link from "next/link";
 import AnimatedText from "@/animation/AnimatedText";
+import { ClientIntakeDialog } from "../dialog/ClientIntakeDialog";
+import { SitterDialog } from "../dialog/SitterDialog";
 
 type TProps = {
   image: StaticImageData;
@@ -15,8 +17,11 @@ type TProps = {
   titleClass?: string;
   btn?: string;
   btnClass?: string;
+  btn2?: string;
+  btn2Class?: string;
   contentClass?: string;
   btnLink?: string;
+  btn2Link?: string;
 };
 const TopBanner = ({
   image,
@@ -25,9 +30,12 @@ const TopBanner = ({
   BannerTitle,
   titleClass,
   btn,
+  btn2,
+  btn2Class,
   btnClass,
   contentClass,
   btnLink,
+  btn2Link,
 }: TProps) => {
   return (
     <div className="relative ">
@@ -51,16 +59,18 @@ const TopBanner = ({
             <h3 className={cn(titleClass)}>{BannerTitle}</h3>
           </MovementElement>
         )}
-        {btn && (
-          <MovementElement y={"40%"} duration={0.5} delay={0.4}>
-            <Link href={btnLink ? btnLink : "#"}>
-              <Button className={cn("md:mt-6 mt-2  ", btnClass)}>
-                {btn?.split(" ")?.slice(0, 4)?.join(" ")} <br />
-                {btn?.split(" ")?.slice(4, btn?.length)?.join(" ")}
-              </Button>
-            </Link>
-          </MovementElement>
-        )}
+        <div className="md:mt-6 mt-2 flex gap-x-2">
+          {btn && (
+            <MovementElement y={"40%"} duration={0.5} delay={0.4}>
+              <ClientIntakeDialog />
+            </MovementElement>
+          )}
+          {btn2 && (
+            <MovementElement y={"40%"} duration={0.5} delay={0.4}>
+              <SitterDialog />
+            </MovementElement>
+          )}
+        </div>
       </Container>
       <Navbar className="absolute mx-auto lg:top-10 top-2 w-full "></Navbar>
     </div>

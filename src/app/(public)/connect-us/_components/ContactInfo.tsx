@@ -9,8 +9,7 @@ const ContactInfo = () => {
       <div>
         <h1 className="text-3xl font-bold">Contact</h1>
         <p className="md:text-3xl text-lg break-words">
-          {" "}
-          rbiera@huemanlinksinc.com
+          <Link href={"mailto:huemanlinksinc@gmail.com"}>huemanlinksinc@gmail.com</Link>
         </p>
       </div>
 

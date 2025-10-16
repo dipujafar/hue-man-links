@@ -87,7 +87,11 @@ const Footer = () => {
 
             <div className="text-primary-white  flex  items-center flex-wrap gap-x-2 justify-center">
               <Mail className="inline" /> Email :
-              <p className="break-words">rbiera@huemanlinksinc.com</p>
+              <p className="break-words">
+                <Link href={"mailto:huemanlinksinc@gmail.com"}>
+                  huemanlinksinc@gmail.com
+                </Link>
+              </p>
             </div>
           </div>
         </div>
