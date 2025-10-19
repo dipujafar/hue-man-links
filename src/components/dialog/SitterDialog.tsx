@@ -39,11 +39,11 @@ const formSchema = z.object({
     message: "Please enter your age.",
   }),
   neurodivergentExperience: z.enum(["yes", "no"], {
-    required_error: "Please select an option.",
+    message: "Please select an option.",
   }),
   experienceDescription: z.string().optional(),
   comfortableWithBehaviors: z.enum(["yes", "no"], {
-    required_error: "Please select an option.",
+    message: "Please select an option.",
   }),
   interestReason: z.string().min(10, {
     message: "Please provide a reason (at least 10 characters).",

@@ -47,10 +47,10 @@ const formSchema = z.object({
   }),
   diagnosis: z.string().optional(),
   receivingABAServices: z.enum(["yes", "no"], {
-    required_error: "Please select an option.",
+    message: "Please select an option.",
   }),
   challengingBehaviors: z.enum(["yes", "no"], {
-    required_error: "Please select an option.",
+    message: "Please select an option.",
   }),
   behaviorDescription: z.string().optional(),
 });
