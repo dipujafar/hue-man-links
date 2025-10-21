@@ -16,7 +16,7 @@ const SpecializedSitters = () => {
         waterMarkClass="md:-bottom-12 md:-right-12 -bottom-4 -right-4"
         waterMarkImage2={circle}
         waterMarkClass2="md:-top-12 md:-left-12 -top-4 -left-4"
-        btnLink="/our-links"
+        btnLink="/specialized-links"
       />
     </div>
   );

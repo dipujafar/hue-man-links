@@ -87,7 +87,7 @@ export function ClientIntakeDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="bg-primary-orange md:text-xl md:py-6">
-          Family User
+          Client Intake Form
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px] scroll-hide">

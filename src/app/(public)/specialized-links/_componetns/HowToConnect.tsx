@@ -14,7 +14,7 @@ const HowToConnect = () => {
       <Image
         src={steps}
         alt="steps"
-        className="md:mt-28 mt-10 w-full xl:w-[80%] mx-auto px-2 "
+        className="md:mt-10 w-full xl:w-[80%] mx-auto md:px-2"
       ></Image>
     </>
   );

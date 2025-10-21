@@ -78,7 +78,7 @@ export function SitterDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="bg-primary-blue md:text-xl md:py-6">
-          Interest for a Link
+          Interest Form for Link
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px] scroll-hide">
