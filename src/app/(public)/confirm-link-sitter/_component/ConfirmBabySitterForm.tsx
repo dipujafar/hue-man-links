@@ -377,7 +377,7 @@ const ConfirmBabySitterForm = () => {
               </div>
             </div>
           </div>
-          <div>
+          {/* <div>
             <h4 className="text-2xl font-semibold text-primary-blue">
               For just $10 a month, you can apply for as many jobs as you like!
             </h4>
@@ -386,7 +386,7 @@ const ConfirmBabySitterForm = () => {
               Enjoy a 30-day free trial! After 30 days, subscription fee will
               apply to continue your access.
             </p>
-          </div>
+          </div> */}
 
           {/* ---- Credit Card ---- */}
           {/* <div className="space-y-7">
