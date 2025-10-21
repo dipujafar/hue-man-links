@@ -65,9 +65,13 @@ const LinksDetailsInfo = () => {
                 scheduled sit
               </li>
               <li>
-                {" "}
                 - Arrive early or on time, fully engaged and present during your
                 connection (no cell phones)
+              </li>
+              <li>
+                - Once you've completed a meet and greet with the owner and have
+                been accepted as a Link, you must create your profile within 24
+                hours and begin applying for jobs.
               </li>
             </ul>
           </div>
