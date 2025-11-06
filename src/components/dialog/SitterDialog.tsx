@@ -24,6 +24,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useSendMailInterestLinkMutation } from "@/redux/api/mailSendApi";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { TError } from "@/types";
+import { Error_Modal } from "../modals/modals";
 
 const formSchema = z.object({
   fullName: z.string().min(2, {
@@ -52,6 +57,7 @@ const formSchema = z.object({
 
 export function SitterDialog() {
   const [open, setOpen] = useState(false);
+  const [interestForm, { isLoading }] = useSendMailInterestLinkMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,11 +73,28 @@ export function SitterDialog() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Handle form submission here
-    setOpen(false);
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const formattedData = {
+      parent: values?.fullName,
+      phoneNumber: values?.phoneNumber,
+      email: values?.emailAddress,
+      age: values?.age,
+      neurodivergentIndividuals: values?.neurodivergentExperience === "yes" ? "Yes" : "No",
+      challengingBehaviors: values?.comfortableWithBehaviors === "yes" ? "Yes" : "No",
+      reasonBecomingLink: values?.interestReason,
+      brieflyDescribe: values?.experienceDescription,
+
+    }
+
+    try {
+      await interestForm(formattedData).unwrap();
+      toast.success("Form submitted successfully.");
+      setOpen(false);
+      form.reset()
+    }
+    catch (err: TError | any) {
+      Error_Modal({ title: err?.data?.message });
+    }
   }
 
   return (
@@ -282,7 +305,8 @@ export function SitterDialog() {
               >
                 Cancel
               </Button>
-              <Button className="bg-primary-blue" type="submit">
+              <Button disabled={isLoading} className="bg-primary-blue" type="submit">
+                {isLoading && <Loader2 className="mr-2 animate-spin" />}
                 Submit
               </Button>
             </div>

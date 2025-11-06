@@ -25,6 +25,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CountryStateCitySelector from "../ui/CountryStateCitySelector";
+import { useSendMailClientIntakeFormMutation } from "@/redux/api/mailSendApi";
+import { toast } from "sonner";
+import { Error_Modal } from "../modals/modals";
+import { TError } from "@/types";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   parentGuardianName: z.string().min(2, {
@@ -57,6 +62,7 @@ const formSchema = z.object({
 
 export function ClientIntakeDialog() {
   const [open, setOpen] = useState(false);
+  const [clientInTakeForm, { isLoading }] = useSendMailClientIntakeFormMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,11 +82,31 @@ export function ClientIntakeDialog() {
 
   const { setValue, register, control } = form;
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Handle form submission here
-    setOpen(false);
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const formattedData = {
+      parent: values?.parentGuardianName,
+      phoneNumber: values?.phoneNumber,
+      email: values?.emailAddress,
+      city: values?.city,
+      childName: values?.childName,
+      childAge: values?.childAge,
+      diagnosis: values?.diagnosis,
+      receivingABAService: values?.receivingABAServices ? "Yes" : "No",
+      anyChallengingBehaviors: values?.challengingBehaviors ? "Yes" : "No",
+      brieflyDescribe: values?.behaviorDescription,
+    }
+
+    try {
+      await clientInTakeForm(formattedData).unwrap();
+      toast.success("Form submitted successfully.");
+      setOpen(false);
+      form.reset()
+    }
+    catch (err: TError | any) {
+      Error_Modal({ title: err?.data?.message });
+    }
+
+
   }
 
   return (
@@ -328,7 +354,8 @@ export function ClientIntakeDialog() {
               >
                 Cancel
               </Button>
-              <Button className="bg-primary-orange" type="submit">
+              <Button disabled={isLoading} className="bg-primary-orange" type="submit">
+                {isLoading && <Loader2 className="mr-2 animate-spin" />}
                 Submit
               </Button>
             </div>
