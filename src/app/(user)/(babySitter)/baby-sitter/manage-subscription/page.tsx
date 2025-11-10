@@ -8,7 +8,7 @@ export const metadata = {
 const ManageSubscription = () => {
   return (
     <div>
-      <ManageSubscriptionContainer></ManageSubscriptionContainer>
+      {/* <ManageSubscriptionContainer></ManageSubscriptionContainer> */}
     </div>
   );
 };

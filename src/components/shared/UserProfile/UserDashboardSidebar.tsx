@@ -64,12 +64,12 @@ const SITTER_SIDEBAR_LINKS = [
     icon: <LibraryBig size={25} />,
     href: "/baby-sitter/other-information",
   },
-  {
-    key: "manage-subscription",
-    label: "Manage Subscription",
-    icon: <SquareChartGantt size={25} />,
-    href: "/baby-sitter/manage-subscription",
-  },
+  // {
+  //   key: "manage-subscription",
+  //   label: "Manage Subscription",
+  //   icon: <SquareChartGantt size={25} />,
+  //   href: "/baby-sitter/manage-subscription",
+  // },
   {
     key: "review-rating",
     label: "Review & Rating",
