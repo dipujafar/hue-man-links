@@ -13,7 +13,7 @@ import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import logo from "@/assets/Images/logo.png";
 import Image from "next/image";
-import { Error_Modal } from "@/components/modals/modals";
+import { Error_Modal, Success_model } from "@/components/modals/modals";
 import {
   InputOTP,
   InputOTPGroup,
@@ -38,12 +38,20 @@ const VerifyOtp = () => {
     if (signUpToken) {
       try {
         const res = await verifyOpt({ otp: Number(otp) }).unwrap();
+        console.log(res);
         if (res?.success) {
           const resSubscription = await createSubscription({
             email,
           }).unwrap();
+          console.log("res", resSubscription)
           sessionStorage.removeItem("signUpToken");
-          router.push(resSubscription?.data?.paymentLink);
+
+          if (!resSubscription?.data?.paymentLink && resSubscription?.data?.paymentId) {
+            router.push("/");
+            Success_model({ title: "User Created Successfully", text: "Please login to continue" });
+          } else {
+            router.push(resSubscription?.data?.paymentLink);
+          }
         }
 
         return;

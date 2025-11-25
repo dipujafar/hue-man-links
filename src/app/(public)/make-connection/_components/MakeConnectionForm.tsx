@@ -626,6 +626,7 @@ const MakeConnectionForm = () => {
                     control={control}
                     // label="Date of Birth"
                     onChange={(date) => updateClient(index, "dob", date)}
+                    
                   />
                 </div>
               </div>
