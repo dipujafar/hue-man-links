@@ -99,9 +99,9 @@ const MakeConnectionForm = () => {
     const fileRes = await upload(imageFile as File);
 
     const formattedData = {
-      email: data.email,
-      password: data.password,
-      profilePicture: fileRes.data.url,
+      email: data?.email,
+      password: data?.password,
+      profilePicture: fileRes?.data.url,
       country: data?.country,
       state: data?.state,
       city: data?.city,
