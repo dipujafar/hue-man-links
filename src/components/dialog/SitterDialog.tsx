@@ -29,6 +29,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { TError } from "@/types";
 import { Error_Modal } from "../modals/modals";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 const formSchema = z.object({
   fullName: z.string().min(2, {
@@ -40,7 +41,7 @@ const formSchema = z.object({
   emailAddress: z.string().email({
     message: "Please enter a valid email address.",
   }),
-  age: z.string().min(1, {
+  gender: z.string().min(1, {
     message: "Please enter your age.",
   }),
   neurodivergentExperience: z.enum(["yes", "no"], {
@@ -65,7 +66,7 @@ export function SitterDialog() {
       fullName: "",
       phoneNumber: "",
       emailAddress: "",
-      age: "",
+      gender: "",
       neurodivergentExperience: undefined,
       experienceDescription: "",
       comfortableWithBehaviors: undefined,
@@ -78,7 +79,7 @@ export function SitterDialog() {
       parent: values?.fullName,
       phoneNumber: values?.phoneNumber,
       email: values?.emailAddress,
-      age: values?.age,
+      gender: values?.gender,
       neurodivergentIndividuals: values?.neurodivergentExperience === "yes" ? "Yes" : "No",
       challengingBehaviors: values?.comfortableWithBehaviors === "yes" ? "Yes" : "No",
       reasonBecomingLink: values?.interestReason,
@@ -171,17 +172,25 @@ export function SitterDialog() {
 
             <FormField
               control={form.control}
-              name="age"
+              name="gender"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Age</FormLabel>
+                  <FormLabel>Gender</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      className="py-5 bg-primary-light-gray"
-                      placeholder="Enter your age"
-                      {...field}
-                    />
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
+                      <SelectTrigger className="py-5 bg-primary-light-gray">
+                        <SelectValue placeholder="Select your gender" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="male">Male</SelectItem>
+                        <SelectItem value="female">Female</SelectItem>
+                      </SelectContent>
+
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
