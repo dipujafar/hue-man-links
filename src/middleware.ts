@@ -1,21 +1,24 @@
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { authRoutes } from "./lib/authRoutes";
 
-export default function middleware(req: any) {
+export default function middleware(req: NextRequest) {
   const { nextUrl } = req;
 
   const isLoggedIn = req.cookies.get("hue-man-access-token")?.value;
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  // If user exists redirect to `/home`
+  // If logged-in user visits auth pages → redirect home
   if (isAuthRoute && isLoggedIn) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // If user not found, redirect to `/login`
+  // If not logged in and visiting protected pages → redirect login
   if (!isLoggedIn && !isAuthRoute) {
-    return NextResponse.redirect(new URL("/", req.url));
+    return NextResponse.redirect(new URL("/login", req.url));
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
